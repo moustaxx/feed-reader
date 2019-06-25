@@ -10,12 +10,14 @@
 		"lint": "eslint ./src/**/*.tsx"
 	},
 	"dependencies": {
+		"@expo/vector-icons": "^10.0.2",
 		"expo": "^33.0.0",
 		"expo-keep-awake": "^5.0.1",
 		"react": "16.8.6",
 		"react-dom": "^16.8.6",
 		"react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
 		"react-native-paper": "^2.16.0",
+		"react-native-screens": "^1.0.0-alpha.22",
 		"react-native-web": "^0.11.4",
 		"react-navigation": "^3.11.0"
 	},

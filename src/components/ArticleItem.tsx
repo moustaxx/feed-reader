@@ -4,7 +4,7 @@ import { Paragraph, Subheading, Caption, TouchableRipple } from 'react-native-pa
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from 'react-navigation-hooks';
 
-import articleStyles from './Article.style';
+import articleStyles from './ArticleItem.style';
 
 interface IArticleProps {
 	id: string | number;
@@ -13,7 +13,7 @@ interface IArticleProps {
 	content: string;
 }
 
-const Article = ({ id, title, imageHref, content }: IArticleProps) => {
+const ArticleItem = ({ id, title, imageHref, content }: IArticleProps) => {
 	const { navigate } = useNavigation();
 	const goToArticle = () => navigate('ArticleScreen', { itemId: id });
 
@@ -45,4 +45,4 @@ const Article = ({ id, title, imageHref, content }: IArticleProps) => {
 	);
 };
 
-export default Article;
+export default ArticleItem;

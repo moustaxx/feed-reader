@@ -1,16 +1,15 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
-import Article from './components/Article';
-import mockedArticles from './data';
+
+import mockedArticles from '../data';
+import ArticleItem from '../components/ArticleItem';
 
 
-const Home = () => {
-	console.log('Home');
-
+const HomeScreen = () => {
 	return (
 		<ScrollView>
 			{mockedArticles.map(article => (
-				<Article
+				<ArticleItem
 					key={article.id}
 					id={article.id}
 					title={article.title}
@@ -22,4 +21,4 @@ const Home = () => {
 	);
 };
 
-export default Home;
+export default HomeScreen;

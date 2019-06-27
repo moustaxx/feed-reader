@@ -3,9 +3,9 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { IconButton } from 'react-native-paper';
 
 import mainStyles from './Main.style';
-import Settings from './Settings';
-import Home from './Home';
-import ArticleScreen from './ArticleScreen';
+import SettingsScreen from './screens/SettingsScreen';
+import HomeScreen from './screens/HomeScreen';
+import ArticleScreen from './screens/ArticleScreen';
 
 const Main = () => {
 	return (
@@ -27,7 +27,7 @@ const navOpts = {
 
 const RootStack = createStackNavigator({
 	Home: {
-		screen: Home,
+		screen: HomeScreen,
 		navigationOptions: {
 			title: 'Feed Reader',
 			...navOpts,
@@ -41,7 +41,7 @@ const RootStack = createStackNavigator({
 		},
 	},
 	Settings: {
-		screen: Settings,
+		screen: SettingsScreen,
 		navigationOptions: {
 			title: 'Settings',
 			...navOpts,

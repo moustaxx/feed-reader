@@ -5,7 +5,7 @@ import { useNavigationParam } from 'react-navigation-hooks';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import articleScreenStyles from './ArticleScreen.style';
-import mockedArticles from './data';
+import mockedArticles from '../data';
 
 
 const ArticleScreen = () => {

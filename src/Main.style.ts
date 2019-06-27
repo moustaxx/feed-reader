@@ -1,8 +1,14 @@
 import { StyleSheet } from 'react-native';
 
 const mainStyles = StyleSheet.create({
-	container: {
-
+	header: {
+		backgroundColor: 'blue',
+	},
+	headerTitle: {
+		color: '#fff',
+	},
+	menu: {
+		marginHorizontal: 16,
 	},
 });
 

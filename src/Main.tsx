@@ -12,27 +12,15 @@ const Main = () => {
 	);
 };
 
-const styles = StyleSheet.create({
-	header: {
-		backgroundColor: 'blue',
-	},
-	headerTitle: {
-		color: '#fff',
-	},
-	menu: {
-		marginHorizontal: 16,
-	},
-});
-
 const navOpts = {
 	headerRight: <IconButton
 		onPress={() => alert('This is a button!')}
-		style={styles.menu}
+		style={mainStyles.menu}
 		icon="menu"
 		color="#fff"
 	/>,
-	headerStyle: styles.header,
-	headerTitleStyle: styles.headerTitle,
+	headerStyle: mainStyles.header,
+	headerTitleStyle: mainStyles.headerTitle,
 	headerTintColor: '#fff',
 };
 

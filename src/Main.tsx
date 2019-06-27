@@ -1,10 +1,11 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import { StyleSheet } from 'react-native';
 import { IconButton } from 'react-native-paper';
 
+import mainStyles from './Main.style';
 import Settings from './Settings';
 import Home from './Home';
+import ArticleScreen from './ArticleScreen';
 
 const Main = () => {
 	return (
@@ -29,6 +30,13 @@ const RootStack = createStackNavigator({
 		screen: Home,
 		navigationOptions: {
 			title: 'Feed Reader',
+			...navOpts,
+		},
+	},
+	ArticleScreen: {
+		screen: ArticleScreen,
+		navigationOptions: {
+			title: 'Article',
 			...navOpts,
 		},
 	},

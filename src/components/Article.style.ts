@@ -7,7 +7,6 @@ const articleStyles = StyleSheet.create({
 		flexDirection: 'row',
 		borderTopWidth: 1,
 		borderTopColor: '#00000020',
-
 	},
 	image: {
 		width: 150,

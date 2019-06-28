@@ -21,6 +21,7 @@ const articleStyles = StyleSheet.create({
 		marginRight: 12,
 		flex: 1,
 		flexWrap: 'wrap',
+		flexDirection: 'row',
 	},
 	captions: {
 		flexDirection: 'row',

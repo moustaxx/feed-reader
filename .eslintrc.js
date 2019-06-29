@@ -26,6 +26,7 @@ module.exports = {
 		'@typescript-eslint/explicit-function-return-type': 0,
 		'@typescript-eslint/no-explicit-any': 0,
 		'@typescript-eslint/no-non-null-assertion': 0,
+		'@typescript-eslint/no-unused-vars': ["warn", { "argsIgnorePattern": "^_" }],
 		'@typescript-eslint/indent': ['warn', 'tab', { SwitchCase: 1 }],
 		'@typescript-eslint/interface-name-prefix': ['error', 'always'],
 		'arrow-body-style': 0,

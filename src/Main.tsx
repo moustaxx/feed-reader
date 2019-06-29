@@ -2,6 +2,7 @@ import React from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { IconButton } from 'react-native-paper';
 
+import './registerLocale';
 import mainStyles from './Main.style';
 import SettingsScreen from './screens/SettingsScreen';
 import HomeScreen from './screens/HomeScreen';

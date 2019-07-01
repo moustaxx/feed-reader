@@ -1,33 +1,34 @@
 import React from 'react';
-import { ScrollView, Image, View } from 'react-native';
+import { ScrollView, Image, View, Linking } from 'react-native';
 import { Title, Paragraph, Caption, Button } from 'react-native-paper';
 import { useNavigationParam } from 'react-navigation-hooks';
 import { MaterialIcons } from '@expo/vector-icons';
 
+import placeholderIMG from '../../assets/placeholder.png';
 import articleScreenStyles from './ArticleScreen.style';
-import mockedArticles from '../data';
-
+import { IArticle } from '../components/ArticleItem';
 
 const ArticleScreen = () => {
-	const itemId = useNavigationParam('itemId');
-	const { title, content, imageHref } = mockedArticles[itemId];
+	const article: IArticle = useNavigationParam('article');
 
-	const goToSource = () => console.log('Go to source');
+	const goToSource = () => (article.targetURL ? Linking.openURL(article.targetURL) : alert('No link'));
+	const img = article.imageURL ? { uri: article.imageURL } : placeholderIMG;
 
 	return (
 		<ScrollView>
-			<Image style={articleScreenStyles.image} source={{ uri: imageHref }} />
+			<Image style={articleScreenStyles.image} source={img} />
 			<View style={articleScreenStyles.wrapper}>
-				<Title>{ title }</Title>
+				<Title>{ article.title }</Title>
 				<View style={articleScreenStyles.captions}>
 					<MaterialIcons
 						name="whatshot"
 						style={articleScreenStyles.flameIcon}
 						size={14}
 					/>
-					<Caption>521 | instalki.pl | 2h</Caption>
+					{/* eslint-disable-next-line react/jsx-one-expression-per-line */}
+					<Caption>{article.engagement} | {article.sourceName} | {article.crawled}</Caption>
 				</View>
-				<Paragraph>{ content }</Paragraph>
+				<Paragraph style={articleScreenStyles.content}>{ article.content }</Paragraph>
 				<Button
 					onPress={goToSource}
 					icon="link"

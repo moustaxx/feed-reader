@@ -3,33 +3,26 @@ import { View, Image } from 'react-native';
 import { Paragraph, Subheading, Caption, TouchableRipple } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from 'react-navigation-hooks';
-import innertext from 'innertext';
-import { format } from 'timeago.js';
 
 import articleStyles from './ArticleItem.style';
 
-interface IArticleProps {
+export interface IArticle {
 	id: string | number;
 	title?: string;
-	content?: string;
+	content: string;
 	imageURL?: string;
-	sourceName?: string;
-	engagement?: number;
-	crawled: number;
+	targetURL?: string;
+	sourceName: string;
+	engagement: number;
+	crawled: string;
+}
+export interface IArticleItemProps {
+	article: IArticle;
 }
 
-const ArticleItem = ({
-	id,
-	title,
-	content,
-	imageURL,
-	sourceName = 'Unknown',
-	engagement = 0,
-	crawled = Date.now(),
-}: IArticleProps) => {
+const ArticleItem = ({ article }: IArticleItemProps) => {
 	const { navigate } = useNavigation();
-	const goToArticle = () => navigate('ArticleScreen', { itemId: id });
-	const date = format(crawled, 'my-locale');
+	const goToArticle = () => navigate('ArticleScreen', { article });
 
 	return (
 		<TouchableRipple onPress={goToArticle}>
@@ -38,11 +31,11 @@ const ArticleItem = ({
 					<Subheading
 						style={articleStyles.title}
 						numberOfLines={3}
-						children={title && title}
+						children={article.title}
 					/>
 					<Paragraph
 						numberOfLines={3}
-						children={content && innertext(content)}
+						children={article.content}
 					/>
 					<View style={articleStyles.captions}>
 						<MaterialIcons
@@ -51,10 +44,12 @@ const ArticleItem = ({
 							size={14}
 						/>
 						{ /* eslint-disable-next-line react/jsx-one-expression-per-line */ }
-						<Caption>{engagement} | {sourceName} | {date}</Caption>
+						<Caption>{article.engagement} | {article.sourceName} | {article.crawled}</Caption>
 					</View>
 				</View>
-				{imageURL && <Image source={{ uri: imageURL }} style={articleStyles.image} />}
+				{article.imageURL
+					&& <Image source={{ uri: article.imageURL }} style={articleStyles.image} />
+				}
 			</View>
 		</TouchableRipple>
 	);

@@ -1,6 +1,8 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { Title } from 'react-native-paper';
+import { format } from 'timeago.js';
+import innertext from 'innertext';
 
 import getArticles from '../API/getArticles';
 import ArticleItem from '../components/ArticleItem';
@@ -32,17 +34,22 @@ const HomeScreen = () => {
 	const articles = data.items;
 	return (
 		<ScrollView>
-			{articles.map((article) => {
+			{articles.map((_article) => {
+				const { content } = _article.summary || _article.content || {} as any;
+				const article = {
+					id: _article.id,
+					title: _article.title,
+					content: innertext(content),
+					imageURL: _article.visual && _article.visual.url !== 'none' ? _article.visual.url : undefined,
+					targetURL: _article.alternate && _article.alternate[0].href,
+					sourceName: _article.origin ? _article.origin.title : 'Unknown',
+					engagement: _article.engagement ? _article.engagement : 0,
+					crawled: format(_article.crawled, 'my-locale'),
+				};
 				return (
 					<ArticleItem
-						key={article.id}
-						id={article.id}
-						title={article.title}
-						content={(article.summary || article.content || {} as any).content}
-						imageURL={article.visual && article.visual.url}
-						sourceName={article.origin && article.origin.title}
-						engagement={article.engagement}
-						crawled={article.crawled}
+						key={_article.id}
+						article={article}
 					/>
 				);
 			})}

@@ -17,6 +17,7 @@ const articleScreenStyles = StyleSheet.create({
 	},
 	goToSourceBtn: {
 		marginVertical: 16,
+		paddingVertical: 4,
 	},
 	content: {
 		marginVertical: 8,

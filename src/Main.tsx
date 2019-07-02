@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createAppContainer, createDrawerNavigator, NavigationScreenProps, NavigationScreenProp } from 'react-navigation';
 import { IconButton } from 'react-native-paper';
 
 import './registerLocale';
@@ -14,42 +14,64 @@ const Main = () => {
 	);
 };
 
-const navOpts = {
-	headerRight: <IconButton
-		onPress={() => alert('This is a button!')}
-		style={mainStyles.menu}
-		icon="menu"
-		color="#fff"
-	/>,
+const headerStyles = {
 	headerStyle: mainStyles.header,
 	headerTitleStyle: mainStyles.headerTitle,
 	headerTintColor: '#fff',
 };
 
+const navOpts = (navigation: NavigationScreenProp<{}>) => ({
+	headerLeft: <IconButton
+		onPress={() => navigation.toggleDrawer()}
+		style={mainStyles.menu}
+		icon="menu"
+		color="#fff"
+	/>,
+	...headerStyles,
+});
+
 const RootStack = createStackNavigator({
 	Home: {
 		screen: HomeScreen,
-		navigationOptions: {
-			title: 'Feed Reader',
-			...navOpts,
+		navigationOptions: ({ navigation }: NavigationScreenProps) => {
+			const opts = navOpts(navigation);
+			return {
+				title: 'Feed Reader',
+				...opts,
+			};
 		},
 	},
 	ArticleScreen: {
 		screen: ArticleScreen,
 		navigationOptions: {
 			title: 'Article',
-			...navOpts,
-		},
-	},
-	Settings: {
-		screen: SettingsScreen,
-		navigationOptions: {
-			title: 'Settings',
-			...navOpts,
+			...headerStyles,
 		},
 	},
 }, { initialRouteName: 'Home' });
 
-const NavigationContainer = createAppContainer(RootStack);
+const SettingsStack = createStackNavigator({
+	Settings: {
+		screen: SettingsScreen,
+		navigationOptions: ({ navigation }: NavigationScreenProps) => {
+			const opts = navOpts(navigation);
+			return {
+				title: 'Settings',
+				...opts,
+			};
+		},
+	},
+}, { initialRouteName: 'Settings' });
+
+const MyDrawerNavigator = createDrawerNavigator({
+	Home: {
+		screen: RootStack,
+	},
+	Settings: {
+		screen: SettingsStack,
+	},
+});
+
+const NavigationContainer = createAppContainer(MyDrawerNavigator);
 
 export default Main;

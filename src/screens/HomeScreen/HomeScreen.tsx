@@ -4,8 +4,8 @@ import { Title } from 'react-native-paper';
 import { format } from 'timeago.js';
 import innertext from 'innertext';
 
-import getArticles from '../API/getArticles';
-import ArticleItem from '../components/ArticleItem';
+import getArticles from '../../API/getArticles';
+import ArticleItem from '../../components/ArticleItem/ArticleItem';
 import homeScreenStyles from './HomeScreen.style';
 
 const HomeScreen = () => {

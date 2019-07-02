@@ -4,9 +4,9 @@ import { IconButton } from 'react-native-paper';
 
 import './registerLocale';
 import mainStyles from './Main.style';
-import SettingsScreen from './screens/SettingsScreen';
-import HomeScreen from './screens/HomeScreen';
-import ArticleScreen from './screens/ArticleScreen';
+import SettingsScreen from './screens/SettingsScreen/SettingsScreen';
+import HomeScreen from './screens/HomeScreen/HomeScreen';
+import ArticleScreen from './screens/ArticleScreen/ArticleScreen';
 
 const Main = () => {
 	return (

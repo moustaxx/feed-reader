@@ -4,9 +4,9 @@ import { Title, Paragraph, Caption, Button } from 'react-native-paper';
 import { useNavigationParam } from 'react-navigation-hooks';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import placeholderIMG from '../../assets/placeholder.png';
+import placeholderIMG from '../../../assets/placeholder.png';
 import articleScreenStyles from './ArticleScreen.style';
-import { IArticle } from '../components/ArticleItem';
+import { IArticle } from '../../components/ArticleItem/ArticleItem';
 
 const ArticleScreen = () => {
 	const article: IArticle = useNavigationParam('article');

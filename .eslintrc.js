@@ -2,17 +2,13 @@ module.exports = {
 	env: {
 		browser: true,
 		es6: true,
-		commonjs: true,
-		node: true
+		commonjs: true
 	},
 	extends: [
 		'airbnb',
 		'plugin:@typescript-eslint/eslint-recommended',
 		'plugin:@typescript-eslint/recommended'
 	],
-	globals: {
-		"__DEV__": "readonly"
-	},
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		project: "./tsconfig.json",

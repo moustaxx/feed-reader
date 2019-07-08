@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { Switch, Subheading, Title, Button } from 'react-native-paper';
+import { Switch, Subheading, Title, Snackbar } from 'react-native-paper';
+
 import settingsStyles from './SettingsScreen.style';
 import { SettingsContext, ISettings } from '../../utils/useSettings';
 
@@ -8,11 +9,20 @@ const SettingsScreen = () => {
 	const [settings, setSettings] = React.useContext(SettingsContext);
 
 	const [optimistic, setOptimistic] = React.useState(settings);
+	const [snackbarVisible, setSnackbarVisibility] = React.useState(false);
+
 	const changeOptimistic = (newOptimistic: Partial<ISettings>) => (
 		setOptimistic({ ...optimistic, ...newOptimistic })
 	);
 
-	const saveData = () => setSettings(optimistic);
+	const saveSettings = () => {
+		setSettings(optimistic);
+		setSnackbarVisibility(true);
+	};
+
+	React.useEffect(() => { // Saves settings
+		return () => saveSettings();
+	}, [optimistic]);
 
 	return (
 		<View style={settingsStyles.root}>
@@ -28,10 +38,11 @@ const SettingsScreen = () => {
 					/>
 				</View>
 			</ScrollView>
-			<Button
-				onPress={saveData}
-				mode="contained"
-				children="Save"
+			<Snackbar
+				visible={snackbarVisible}
+				duration={2000}
+				onDismiss={() => setSnackbarVisibility(false)}
+				children="Settings saved."
 			/>
 		</View>
 	);

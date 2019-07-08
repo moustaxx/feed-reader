@@ -8,17 +8,24 @@ const articleStyles = StyleSheet.create({
 		borderTopWidth: 1,
 		borderTopColor: '#00000020',
 	},
-	image: {
+	imageLeft: {
 		width: 150,
 		height: 100,
 		marginVertical: 4,
+		marginRight: 12,
+		resizeMode: 'cover',
+	},
+	imageRight: {
+		width: 150,
+		height: 100,
+		marginVertical: 4,
+		marginLeft: 12,
 		resizeMode: 'cover',
 	},
 	title: {
 		fontWeight: 'bold',
 	},
 	content: {
-		marginRight: 12,
 		flex: 1,
 		flexWrap: 'wrap',
 		flexDirection: 'column',

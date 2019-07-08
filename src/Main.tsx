@@ -1,16 +1,23 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer, createDrawerNavigator, NavigationScreenProps, NavigationScreenProp } from 'react-navigation';
-import { IconButton } from 'react-native-paper';
+import { IconButton, Text } from 'react-native-paper';
 
 import './registerLocale';
 import mainStyles from './Main.style';
 import SettingsScreen from './screens/SettingsScreen/SettingsScreen';
 import HomeScreen from './screens/HomeScreen/HomeScreen';
 import ArticleScreen from './screens/ArticleScreen/ArticleScreen';
+import useSettings, { SettingsContext } from './utils/useSettings';
 
 const Main = () => {
+	const { loading, settings, setSettings } = useSettings();
+
+	if (loading) return <Text>Loading...</Text>;
+
 	return (
-		<NavigationContainer />
+		<SettingsContext.Provider value={[settings, setSettings]}>
+			<NavigationContainer />
+		</SettingsContext.Provider>
 	);
 };
 

@@ -2,10 +2,14 @@ import { StyleSheet } from 'react-native';
 
 const settingsStyles = StyleSheet.create({
 	root: {
-		backgroundColor: 'red',
-		flex: 1,
+		padding: 16,
+		height: '100%',
+	},
+	option: {
+		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent: 'space-between',
+		marginVertical: 8,
 	},
 });
 

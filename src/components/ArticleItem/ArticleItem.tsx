@@ -5,6 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from 'react-navigation-hooks';
 
 import articleStyles from './ArticleItem.style';
+import { SettingsContext } from '../../utils/useSettings';
 
 export interface IArticle {
 	id: string | number;
@@ -22,11 +23,19 @@ export interface IArticleItemProps {
 
 const ArticleItem = ({ article }: IArticleItemProps) => {
 	const { navigate } = useNavigation();
+	const [{ articlePictureOnLeft }] = React.useContext(SettingsContext);
+
 	const goToArticle = () => navigate('ArticleScreen', { article });
 
 	return (
 		<TouchableRipple onPress={goToArticle}>
 			<View style={articleStyles.root}>
+				{article.imageURL && articlePictureOnLeft && (
+					<Image
+						source={{ uri: article.imageURL }}
+						style={articleStyles.imageLeft}
+					/>
+				)}
 				<View style={articleStyles.content}>
 					<Subheading
 						style={articleStyles.title}
@@ -47,9 +56,12 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 						<Caption>{article.engagement} | {article.sourceName} | {article.crawled}</Caption>
 					</View>
 				</View>
-				{article.imageURL
-					&& <Image source={{ uri: article.imageURL }} style={articleStyles.image} />
-				}
+				{article.imageURL && !articlePictureOnLeft && (
+					<Image
+						source={{ uri: article.imageURL }}
+						style={articleStyles.imageRight}
+					/>
+				)}
 			</View>
 		</TouchableRipple>
 	);

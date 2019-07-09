@@ -39,7 +39,7 @@ const HomeScreen = () => {
 				const article = {
 					id: _article.id,
 					title: _article.title,
-					content: innertext(content),
+					content: content && innertext(content),
 					imageURL: _article.visual && _article.visual.url !== 'none' ? _article.visual.url : undefined,
 					targetURL: _article.alternate && _article.alternate[0].href,
 					sourceName: _article.origin ? _article.origin.title : 'Unknown',

@@ -1,7 +1,8 @@
+import React from 'react';
 import withQuery from 'with-query';
 
-import { USER_ID } from '../../.env';
 import useFetch from '../utils/useFetch';
+import { AuthContext } from '../contexts/AuthContext';
 
 
 export interface IEntires {
@@ -143,14 +144,35 @@ interface IGetArticles {
 	items: IEntires[];
 }
 
-const URL = 'http://cloud.feedly.com/v3/streams/contents/';
+interface IInput {
+	streamId: string;
+	/** Optional integer number of entries to return.default is 20.
+	 * max is 1, 000 for feeds and categories, 500 for tags. */
+	count?: number;
+	/** Optional string newest, oldest, or engagement(sort by popularity).default is newest. */
+	ranked?: string;
+	/** Optional boolean if true, only unread articles will be returned;
+	 * default is false.Reminder: entries older than 31 days are automatically marked as read.
+	 * This requires the authorization header. */
+	unreadOnly?: boolean;
+	/** Optional long timestamp in ms; cannot be older than 31 days ago. */
+	newerThan?: number;
+	/** Optional string a continuation id is used to page through the entry ids;
+	 * you can also pass a timestamp in ms, which will act as an “older than” limit. */
+	continuation?: string;
+}
 
-const reqURL = withQuery(URL, {
-	streamId: encodeURI(`user/${USER_ID}/category/global.all`),
-	count: 20,
-	unreadOnly: true,
-	ranked: 'newest',
-});
-const getArticles = () => useFetch<IGetArticles>(reqURL);
+const URL = 'http://sandbox7.feedly.com/v3/streams/contents/';
+
+const getArticles = () => {
+	const [{ userID }] = React.useContext(AuthContext);
+	const reqURL = withQuery<IInput>(URL, {
+		streamId: encodeURI(`user/${userID}/category/global.all`),
+		count: 20,
+		unreadOnly: true,
+		ranked: 'newest',
+	});
+	return useFetch<IGetArticles>(reqURL);
+};
 
 export default getArticles;

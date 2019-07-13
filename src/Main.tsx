@@ -1,23 +1,47 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer, createDrawerNavigator, NavigationScreenProps, NavigationScreenProp } from 'react-navigation';
 import { IconButton, Text } from 'react-native-paper';
+import { AsyncStorage } from 'react-native';
 
 import './registerLocale';
 import mainStyles from './Main.style';
 import SettingsScreen from './screens/SettingsScreen/SettingsScreen';
 import HomeScreen from './screens/HomeScreen/HomeScreen';
 import ArticleScreen from './screens/ArticleScreen/ArticleScreen';
+import LoginScreen from './screens/LoginScreen/LoginScreen';
 import useSettings, { SettingsContext } from './utils/useSettings';
+import { AuthContext, IAuthStatus, initAuthCtxValue } from './contexts/AuthContext';
+
+const NavigationWrapper = () => {
+	const [authData] = React.useContext(AuthContext);
+
+	return authData.status === 'LOGGED_IN'
+		? <AuthNavigationContainer />
+		: <LoginNavigationContainer />;
+};
 
 const Main = () => {
 	const { loading, settings, setSettings } = useSettings();
+	const [authState, setAuthState] = React.useState<IAuthStatus>(initAuthCtxValue);
+
+	const getUserID = async () => {
+		const userID = await AsyncStorage.getItem('userID');
+		const status = userID ? 'LOGGED_IN' : 'LOGGED_OUT';
+		setAuthState({ userID, status });
+	};
+
+	React.useEffect(() => {
+		getUserID();
+	}, []);
 
 	if (loading) return <Text>Loading...</Text>;
 
 	return (
-		<SettingsContext.Provider value={[settings, setSettings]}>
-			<NavigationContainer />
-		</SettingsContext.Provider>
+		<AuthContext.Provider value={[authState, setAuthState]}>
+			<SettingsContext.Provider value={[settings, setSettings]}>
+				<NavigationWrapper />
+			</SettingsContext.Provider>
+		</AuthContext.Provider>
 	);
 };
 
@@ -70,7 +94,17 @@ const SettingsStack = createStackNavigator({
 	},
 }, { initialRouteName: 'Settings' });
 
-const MyDrawerNavigator = createDrawerNavigator({
+const LoginStack = createStackNavigator({
+	Login: {
+		screen: LoginScreen,
+		navigationOptions: {
+			title: 'Login',
+			...headerStyles,
+		},
+	},
+}, { initialRouteName: 'Login' });
+
+const AuthNavigator = createDrawerNavigator({
 	Home: {
 		screen: RootStack,
 	},
@@ -79,6 +113,7 @@ const MyDrawerNavigator = createDrawerNavigator({
 	},
 });
 
-const NavigationContainer = createAppContainer(MyDrawerNavigator);
+const LoginNavigationContainer = createAppContainer(LoginStack);
+const AuthNavigationContainer = createAppContainer(AuthNavigator);
 
 export default Main;

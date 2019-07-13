@@ -1,5 +1,5 @@
 import React from 'react';
-import { ACCESS_TOKEN } from '../../.env';
+import * as SecureStore from 'expo-secure-store';
 
 interface IState<T> {
 	data: T | null;
@@ -13,12 +13,6 @@ interface IFeedlyError {
 	errorId?: string;
 }
 
-const defaultOptions = {
-	headers: {
-		Authorization: `OAuth ${ACCESS_TOKEN}`,
-	},
-};
-
 function useFetch<T extends {}>(url: string, options?: RequestInit): IState<T> {
 	const [state, setState] = React.useState<IState<T>>({
 		data: null,
@@ -26,10 +20,19 @@ function useFetch<T extends {}>(url: string, options?: RequestInit): IState<T> {
 		error: null,
 	});
 
-	const mergedOptions = { ...defaultOptions, options };
+	const getAccessToken = async () => {
+		const token = await SecureStore.getItemAsync('accessToken');
+		return token;
+	};
 
 	const handleFetch = async () => {
 		setState(({ ...state, loading: true }));
+		const mergedOptions = {
+			headers: {
+				Authorization: `Bearer ${await getAccessToken()}`,
+			},
+			options,
+		};
 		try {
 			const res = await fetch(url, mergedOptions);
 			const json: T & IFeedlyError = await res.json();
@@ -52,7 +55,6 @@ function useFetch<T extends {}>(url: string, options?: RequestInit): IState<T> {
 				error: err,
 			});
 		}
-		return true;
 	};
 
 	React.useEffect(() => {

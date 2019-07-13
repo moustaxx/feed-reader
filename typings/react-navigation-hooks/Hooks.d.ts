@@ -1,13 +1,13 @@
 /* eslint-disable */
 
 declare module 'react-navigation-hooks' {
-	import { NavigationScreenProp, NavigationRoute, NavigationParams, NavigationEventCallback } from 'react-navigation';
+	import { NavigationScreenProp, NavigationRoute, NavigationParams, NavigationEventCallback, NavigationLeafRoute, NavigationState } from 'react-navigation';
 
 	export function useNavigation<S>(): NavigationScreenProp<S & NavigationRoute>;
 	export function useNavigationParam<T extends keyof NavigationParams>(paramName: T): NavigationParams[T];
-	export function useNavigationState(): (import("react-navigation").NavigationLeafRoute<NavigationParams> & {
+	export function useNavigationState(): (NavigationLeafRoute<NavigationParams> & {
 		params?: NavigationParams | undefined;
-	}) | (import("react-navigation").NavigationLeafRoute<NavigationParams> & import("react-navigation").NavigationState & {
+	}) | (NavigationLeafRoute<NavigationParams> & NavigationState & {
 		params?: NavigationParams | undefined;
 	});
 	export function useNavigationKey(): string;

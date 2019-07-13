@@ -11,6 +11,7 @@ declare module 'with-query' {
 		noHash: boolean;
 	};
 
-	const withQuery: (url: string, query?: TQuery, opts?: Partial<TOpts>) => string = () => {};
+	function withQuery(url: string, query: TQuery | string, opts?: Partial<TOpts>): string;
+	function withQuery<T>(url: string, query: T, opts?: Partial<TOpts>): string;
 	export default withQuery;
 }

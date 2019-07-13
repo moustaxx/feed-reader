@@ -1,7 +1,8 @@
 import React from 'react';
 import { createStackNavigator, createAppContainer, createDrawerNavigator, NavigationScreenProps, NavigationScreenProp } from 'react-navigation';
-import { IconButton, Text } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 import { AsyncStorage } from 'react-native';
+import { AppLoading } from 'expo';
 
 import './registerLocale';
 import mainStyles from './Main.style';
@@ -10,7 +11,7 @@ import HomeScreen from './screens/HomeScreen/HomeScreen';
 import ArticleScreen from './screens/ArticleScreen/ArticleScreen';
 import LoginScreen from './screens/LoginScreen/LoginScreen';
 import useSettings, { SettingsContext } from './utils/useSettings';
-import { AuthContext, IAuthStatus, initAuthCtxValue } from './contexts/AuthContext';
+import { AuthContext, IAuthStatus } from './contexts/AuthContext';
 
 const NavigationWrapper = () => {
 	const [authData] = React.useContext(AuthContext);
@@ -22,20 +23,18 @@ const NavigationWrapper = () => {
 
 const Main = () => {
 	const { loading, settings, setSettings } = useSettings();
-	const [authState, setAuthState] = React.useState<IAuthStatus>(initAuthCtxValue);
-
-	const getUserID = async () => {
-		const userID = await AsyncStorage.getItem('userID');
-		const status = userID ? 'LOGGED_IN' : 'LOGGED_OUT';
-		setAuthState({ userID, status });
-	};
+	const [authState, setAuthState] = React.useState<null | IAuthStatus>(null);
 
 	React.useEffect(() => {
+		const getUserID = async () => {
+			const userID = await AsyncStorage.getItem('userID');
+			const status = userID ? 'LOGGED_IN' : 'LOGGED_OUT';
+			setAuthState({ userID, status });
+		};
 		getUserID();
 	}, []);
 
-	if (loading) return <Text>Loading...</Text>;
-
+	if (!authState || loading) return <AppLoading />;
 	return (
 		<AuthContext.Provider value={[authState, setAuthState]}>
 			<SettingsContext.Provider value={[settings, setSettings]}>

@@ -1,15 +1,19 @@
 import React from 'react';
 import { ScrollView, Image, View, Linking } from 'react-native';
 import { Title, Paragraph, Caption, Button } from 'react-native-paper';
-import { useNavigationParam } from 'react-navigation-hooks';
+import { NavigationScreenProps, withNavigation } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import placeholderIMG from '../../../assets/placeholder.png';
 import articleScreenStyles from './ArticleScreen.style';
 import { IArticle } from '../../components/ArticleItem/ArticleItem';
 
-const ArticleScreen = () => {
-	const article: IArticle = useNavigationParam('article');
+const ArticleScreen = ({ navigation }: NavigationScreenProps) => {
+	const article: IArticle = navigation.getParam('article');
+
+	React.useEffect(() => {
+		navigation.setParams({ Title: article.title });
+	}, [article]);
 
 	const goToSource = () => (article.targetURL ? Linking.openURL(article.targetURL) : alert('No link'));
 	const img = article.imageURL ? { uri: article.imageURL } : placeholderIMG;
@@ -41,4 +45,9 @@ const ArticleScreen = () => {
 	);
 };
 
-export default ArticleScreen;
+ArticleScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => ({
+	title: navigation.getParam('Title', 'Article'),
+});
+
+
+export default withNavigation(ArticleScreen);

@@ -42,10 +42,7 @@ const HomeStack = createStackNavigator({
 	},
 	ArticleScreen: {
 		screen: ArticleScreen,
-		navigationOptions: {
-			title: 'Article',
-			...headerStyles,
-		},
+		navigationOptions: headerStyles,
 	},
 }, { initialRouteName: 'Home' });
 

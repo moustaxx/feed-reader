@@ -1,6 +1,6 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
-import { Title } from 'react-native-paper';
+import { Title, ActivityIndicator } from 'react-native-paper';
 import { format } from 'timeago.js';
 import innertext from 'innertext';
 
@@ -13,7 +13,7 @@ const HomeScreen = () => {
 	if (loading) {
 		return (
 			<View style={homeScreenStyles.message}>
-				<Title>Loading...</Title>
+				<ActivityIndicator size="large" />
 			</View>
 		);
 	}

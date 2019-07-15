@@ -11,6 +11,9 @@ const settingsStyles = StyleSheet.create({
 		justifyContent: 'space-between',
 		marginVertical: 8,
 	},
+	logoutBtn: {
+		marginVertical: 8,
+	},
 });
 
 export default settingsStyles;

@@ -5,9 +5,9 @@ import { AppLoading } from 'expo';
 
 import './registerLocale';
 import theme from './theme';
+import NavigationWrapper from './navigation';
 import useSettings, { SettingsContext } from './utils/useSettings';
 import { AuthContext, IAuthStatus } from './contexts/AuthContext';
-import NavigationWrapper from './Navigation';
 
 const Main = () => {
 	const { loading, settings, setSettings } = useSettings();

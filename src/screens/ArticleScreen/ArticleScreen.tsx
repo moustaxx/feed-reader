@@ -46,7 +46,7 @@ const ArticleScreen = ({ navigation }: NavigationScreenProps) => {
 };
 
 ArticleScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => ({
-	title: navigation.getParam('Title', 'Article'),
+	title: navigation.getParam('Title', 'Feed Reader'),
 });
 
 

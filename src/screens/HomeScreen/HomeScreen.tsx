@@ -1,6 +1,7 @@
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 import { Title, ActivityIndicator } from 'react-native-paper';
+import { ScrollView } from 'react-navigation';
 import { format } from 'timeago.js';
 import innertext from 'innertext';
 

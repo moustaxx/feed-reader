@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, ScrollView, AsyncStorage } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import { Switch, Subheading, Title, Snackbar, Button } from 'react-native-paper';
+import { ScrollView } from 'react-navigation';
 import * as SecureStore from 'expo-secure-store';
 
 import settingsStyles from './SettingsScreen.style';

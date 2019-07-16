@@ -1,7 +1,7 @@
 import React from 'react';
-import { ScrollView, Image, View, Linking } from 'react-native';
+import { Image, View, Linking } from 'react-native';
 import { Title, Paragraph, Caption, Button } from 'react-native-paper';
-import { NavigationScreenProps, withNavigation } from 'react-navigation';
+import { NavigationScreenProps, withNavigation, ScrollView } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import placeholderIMG from '../../../assets/placeholder.png';

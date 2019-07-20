@@ -1,7 +1,7 @@
 import { createStackNavigator, createAppContainer,
 	createDrawerNavigator, NavigationScreenProps } from 'react-navigation';
 
-import { navOpts, headerStyles } from './common';
+import { navOpts } from './common';
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import ArticleScreen from '../screens/ArticleScreen/ArticleScreen';
@@ -19,7 +19,9 @@ const HomeStack = createStackNavigator({
 	},
 	ArticleScreen: {
 		screen: ArticleScreen,
-		navigationOptions: headerStyles,
+		navigationOptions: ({ navigation }: NavigationScreenProps) => {
+			return navOpts(navigation);
+		},
 	},
 }, { initialRouteName: 'Home' });
 

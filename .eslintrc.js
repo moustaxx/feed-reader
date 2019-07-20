@@ -5,18 +5,16 @@ module.exports = {
 		commonjs: true
 	},
 	extends: [
-		'airbnb',
+		'eslint-config-airbnb-typescript',
 		'plugin:@typescript-eslint/eslint-recommended',
 		'plugin:@typescript-eslint/recommended'
 	],
-	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		project: "./tsconfig.json",
 		ecmaVersion: 2018,
 		ecmaFeatures: { jsx: true },
 		sourceType: "module"
 	},
-	plugins: ['@typescript-eslint'],
 	rules: {
 		'@typescript-eslint/array-type': 0,
 		'@typescript-eslint/explicit-function-return-type': 0,
@@ -33,16 +31,8 @@ module.exports = {
 		'no-tabs': 0,
 		'no-multiple-empty-lines': ['error', { max: 3, maxEOF: 1, maxBOF: 0 }],
 		'object-curly-newline': ["error", { "consistent": true }],
-		'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
 		'react/jsx-indent': ['error', 'tab'],
 		'react/jsx-indent-props': ['error', 'tab'],
 		'react/no-children-prop': 0
 	},
-	"settings": {
-		"import/resolver": {
-			"node": {
-				"extensions": [".js", ".jsx", ".ts", ".tsx"]
-			}
-		}
-	}
 };

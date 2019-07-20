@@ -1019,7 +1019,7 @@
     "@typescript-eslint/typescript-estree" "1.12.0"
     eslint-scope "^4.0.0"
 
-"@typescript-eslint/parser@^1.12.0":
+"@typescript-eslint/parser@^1.11.0", "@typescript-eslint/parser@^1.12.0":
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-1.12.0.tgz#9965895ec4745578185965d63f21510f93a3f35a"
   integrity sha512-0uzbaa9ZLCA5yMWJywnJJ7YVENKGWVUhJDV5UrMoldC5HoI54W5kkdPhTfmtFKpPFp93MIwmJj0/61ztvmz5Dw==
@@ -2205,7 +2205,7 @@ escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
 
-eslint-config-airbnb-base@^13.2.0:
+eslint-config-airbnb-base@^13.1.0, eslint-config-airbnb-base@^13.2.0:
   version "13.2.0"
   resolved "https://registry.yarnpkg.com/eslint-config-airbnb-base/-/eslint-config-airbnb-base-13.2.0.tgz#f6ea81459ff4dec2dda200c35f1d8f7419d57943"
   integrity sha512-1mg/7eoB4AUeB0X1c/ho4vb2gYkNH8Trr/EgCT/aGmKhhG+F6vF5s8+iRBlWAzFIAphxIdp3YfEKgEl0f9Xg+w==
@@ -2214,7 +2214,16 @@ eslint-config-airbnb-base@^13.2.0:
     object.assign "^4.1.0"
     object.entries "^1.1.0"
 
-eslint-config-airbnb@^17.1.1:
+eslint-config-airbnb-typescript@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-airbnb-typescript/-/eslint-config-airbnb-typescript-4.0.1.tgz#516a95d6e8c495100973b0c49daa54bff0964434"
+  integrity sha512-4LHD0O0X1e08k+e8AngAsKPYNc7nL+5PzK7OEl9qZ6d7C+wo8BN2fMxBhhiUmRggJxArrldp7Dgb1s2f1/Robg==
+  dependencies:
+    "@typescript-eslint/parser" "^1.11.0"
+    eslint-config-airbnb "^17.1.0"
+    eslint-config-airbnb-base "^13.1.0"
+
+eslint-config-airbnb@^17.1.0:
   version "17.1.1"
   resolved "https://registry.yarnpkg.com/eslint-config-airbnb/-/eslint-config-airbnb-17.1.1.tgz#2272e0b86bb1e2b138cdf88d07a3b6f4cda3d626"
   integrity sha512-xCu//8a/aWqagKljt+1/qAM62BYZeNq04HmdevG5yUGWpja0I/xhqd6GdLRch5oetEGFiJAnvtGuTEAese53Qg==

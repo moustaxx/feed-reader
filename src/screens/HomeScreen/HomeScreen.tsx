@@ -1,13 +1,16 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Title, ActivityIndicator } from 'react-native-paper';
-import { ScrollView } from 'react-navigation';
+import { Title, ActivityIndicator, IconButton } from 'react-native-paper';
+import { ScrollView, NavigationScreenProps } from 'react-navigation';
 import { format } from 'timeago.js';
 import innertext from 'innertext';
 
-import getArticles from '../../API/getArticles';
-import ArticleItem from '../../components/ArticleItem/ArticleItem';
 import homeScreenStyles from './HomeScreen.style';
+import getArticles from '../../API/getArticles';
+import markAllAsRead from '../../API/markAllAsRead';
+import ArticleItem from '../../components/ArticleItem/ArticleItem';
+import { navOpts } from '../../navigation/common';
+import theme from '../../theme';
 
 const HomeScreen = () => {
 	const { data, loading, error } = getArticles();
@@ -35,7 +38,7 @@ const HomeScreen = () => {
 	const articles = data.items;
 	return (
 		<ScrollView>
-			{articles.map((_article) => {
+			{articles.map(_article => {
 				const { content } = _article.summary || _article.content || {} as any;
 				const article = {
 					id: _article.id,
@@ -56,6 +59,22 @@ const HomeScreen = () => {
 			})}
 		</ScrollView>
 	);
+};
+
+HomeScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
+	const opts = navOpts(navigation);
+	return {
+		...opts,
+		title: 'Feed Reader',
+		headerRight: (
+			<IconButton
+				icon="check"
+				color={theme.colors.headerElements}
+				style={{ marginRight: 16 }}
+				onPress={() => markAllAsRead()}
+			/>
+		),
+	};
 };
 
 export default HomeScreen;

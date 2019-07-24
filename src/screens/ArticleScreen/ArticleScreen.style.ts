@@ -22,6 +22,17 @@ const articleScreenStyles = StyleSheet.create({
 	content: {
 		marginVertical: 8,
 	},
+	navHeaderRight: {
+		flexDirection: 'row',
+		flexGrow: 1,
+		marginRight: 8,
+	},
+	navHeaderRightIcon: {
+		marginLeft: 2,
+	},
+	navHeaderTitleContainerStyle: {
+		marginRight: 32,
+	},
 });
 
 export default articleScreenStyles;

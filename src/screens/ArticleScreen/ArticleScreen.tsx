@@ -1,12 +1,14 @@
 import React from 'react';
 import { Image, View, Linking } from 'react-native';
-import { Title, Paragraph, Caption, Button } from 'react-native-paper';
+import { Title, Paragraph, Caption, Button, IconButton } from 'react-native-paper';
 import { NavigationScreenProps, withNavigation, ScrollView } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import placeholderIMG from '../../../assets/placeholder.png';
 import articleScreenStyles from './ArticleScreen.style';
 import { IArticle } from '../../components/ArticleItem/ArticleItem';
+import { navOpts } from '../../navigation/common';
+import theme from '../../theme';
 
 const ArticleScreen = ({ navigation }: NavigationScreenProps) => {
 	const article: IArticle = navigation.getParam('article');
@@ -45,9 +47,30 @@ const ArticleScreen = ({ navigation }: NavigationScreenProps) => {
 	);
 };
 
-ArticleScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => ({
-	title: navigation.getParam('Title', 'Feed Reader'),
-});
+ArticleScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
+	const opts = navOpts(navigation);
+	return {
+		...opts,
+		title: navigation.getParam('Title', 'Feed Reader'),
+		headerTitleContainerStyle: articleScreenStyles.navHeaderTitleContainerStyle,
+		headerRight: (
+			<View style={articleScreenStyles.navHeaderRight}>
+				<IconButton
+					icon="save"
+					color={theme.colors.headerElements}
+					style={articleScreenStyles.navHeaderRightIcon}
+					onPress={() => 'save'}
+				/>
+				<IconButton
+					icon="check"
+					color={theme.colors.headerElements}
+					style={articleScreenStyles.navHeaderRight}
+					onPress={() => 'mark as read'}
+				/>
+			</View>
+		),
+	};
+};
 
 
 export default withNavigation(ArticleScreen);

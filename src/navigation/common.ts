@@ -1,6 +1,7 @@
 import React from 'react';
 import { IconButton } from 'react-native-paper';
 import { NavigationScreenProp, NavigationParams, NavigationRoute } from 'react-navigation';
+import theme from '../theme';
 
 const shouldShowBackButton = (
 	stackRouteNavigation: NavigationScreenProp<NavigationRoute<NavigationParams>, NavigationParams>,
@@ -11,12 +12,12 @@ const shouldShowBackButton = (
 
 export const headerStyles = {
 	headerStyle: {
-		backgroundColor: 'blue',
+		backgroundColor: theme.colors.primary,
 	},
 	headerTitleStyle: {
-		color: '#fff',
+		color: theme.colors.headerElements,
 	},
-	headerTintColor: '#fff',
+	headerTintColor: theme.colors.headerElements,
 };
 
 export const navOpts = (
@@ -25,13 +26,13 @@ export const navOpts = (
 	headerLeft: shouldShowBackButton(navigation)
 		? React.createElement(IconButton, {
 			icon: 'arrow-back',
-			color: '#fff',
+			color: theme.colors.headerElements,
 			style: { marginHorizontal: 16 },
 			onPress: () => navigation.goBack(),
 		})
 		: React.createElement(IconButton, {
 			icon: 'menu',
-			color: '#fff',
+			color: theme.colors.headerElements,
 			style: { marginHorizontal: 16 },
 			onPress: () => navigation.toggleDrawer(),
 		}),

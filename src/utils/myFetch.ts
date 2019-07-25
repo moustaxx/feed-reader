@@ -1,4 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
+import { BASE_URL } from '../../config';
 
 export interface IFeedlyError {
 	errorCode: number;
@@ -19,7 +20,7 @@ export async function fetchRes(url: string, options: RequestInit = {}) {
 			Authorization: `Bearer ${await getAccessToken()}`,
 		},
 	};
-	const res = await fetch(url, mergedOptions).catch(err => { throw Error(err); });
+	const res = await fetch(BASE_URL + url, mergedOptions).catch(err => { throw Error(err); });
 	if (!res.ok) {
 		const throwErr = () => {
 			throw Error(`Error ${res.status}: Response is not ok.`);

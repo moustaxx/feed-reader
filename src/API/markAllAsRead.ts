@@ -15,7 +15,7 @@ const markAllAsRead = async () => {
 		console.warn('Can not get userID!');
 		throw Error(err);
 	});
-	await fetchRes('https://sandbox7.feedly.com/v3/markers', {
+	await fetchRes('/v3/markers', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

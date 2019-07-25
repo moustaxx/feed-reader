@@ -28,10 +28,10 @@ const HomeScreen = () => {
 			</View>
 		);
 	}
-	if (!data || !data.id) {
+	if (!data || !data.id || !data.items.length) {
 		return (
 			<View style={homeScreenStyles.message}>
-				<Title>No data</Title>
+				<Title>Nothing to show...</Title>
 			</View>
 		);
 	}

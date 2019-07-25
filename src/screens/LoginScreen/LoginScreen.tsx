@@ -7,27 +7,10 @@ import { Text } from 'react-native-paper';
 import * as SecureStore from 'expo-secure-store';
 import URLParse from 'url-parse';
 
+import { REDIRECT_URI, CLIENT_ID } from '../../../config';
 import loginScreenStyles from './LoginScreen.style';
 import { AuthContext } from '../../contexts/AuthContext';
-
-interface IGetTokenRes {
-	/** The feedly user id */
-	id: string;
-	/** A token that may be used to access APIs. Access tokens are have an expiration */
-	access_token: string;
-	/** A token that may be used to obtain a new access token.
-	 *  Refresh tokens are valid until the user revokes access. */
-	refresh_token: string;
-	/** The remaining lifetime on the access token in seconds */
-	expires_in: number;
-	/** Indicates the type of token returned. At this time,
-	 *  this field will always have the value of Bearer */
-	token_type: string;
-	/** Indicated the user plan (standard, pro or business) */
-	plan: string;
-	/** The state that was passed in */
-	state?: string;
-}
+import getTokens from '../../API/getTokens';
 
 interface IGetAuthCodeInput {
 	/** Indicates the type of token requested.
@@ -55,26 +38,10 @@ interface IGetAuthCodeInput {
 	state?: string;
 }
 
-interface IGetTokenInput {
-	/** The code returned from the previous call */
-	code: string;
-	/** The clientId obtained during application registration */
-	client_id: string;
-	/** The client secret obtained during application registration */
-	client_secret: string;
-	/** The URI registered with the application
-	 * (if you pass it as a URL parameter, be sure to URL-encode it!) */
-	redirect_uri: string;
-	/** Only `https://cloud.feedly.com/subscriptions` is supported. */
-	state?: string;
-	/** As defined in the OAuth2 specification, this field must be set to `authorization_code` */
-	grant_type: string;
-}
-
-const authUrl = withQuery<IGetAuthCodeInput>('http://sandbox7.feedly.com/v3/auth/auth', {
+const authUrl = withQuery<IGetAuthCodeInput>('/v3/auth/auth', {
 	response_type: 'code',
-	client_id: 'sandbox',
-	redirect_uri: encodeURI('urn:ietf:wg:oauth:2.0:oob'),
+	client_id: CLIENT_ID,
+	redirect_uri: encodeURI(REDIRECT_URI),
 	scope: encodeURI('https://cloud.feedly.com/subscriptions'),
 });
 
@@ -104,33 +71,20 @@ const LoginScreen = () => {
 		};
 	}, []);
 
-	const getToken = async (code: string) => {
-		// Get tokens using code from received URL
-		const getTokenUrl = withQuery<IGetTokenInput>('http://sandbox7.feedly.com/v3/auth/token', {
-			code,
-			client_id: 'sandbox',
-			client_secret: 'YamL84gadHERJNcQ',
-			redirect_uri: encodeURI('urn:ietf:wg:oauth:2.0:oob'),
-			grant_type: 'authorization_code',
-		});
-		const data = await fetch(getTokenUrl, { method: 'POST' }).catch((err) => {
-			console.warn('Can not get token!', err);
-			setAuthError('Can not get token!');
-		});
-		if (!data || !data.ok) return;
-		const json: IGetTokenRes = await data.json();
-		await saveData(json.access_token, json.refresh_token, json.id);
-		if (mounted) setAuthData({ status: 'LOGGED_IN', userID: json.id });
-	};
-
-	const handleAuth = (url?: string) => {
+	const handleAuth = async (url?: string) => {
 		if (!url) return;
 		const { query }: IParsedQS = URLParse(url, true);
 		if (!query.code) {
 			if (query.error) setAuthError(query.error);
 			return;
 		}
-		getToken(query.code);
+		const tokens = await getTokens(query.code).catch(err => {
+			setAuthError('Can not get tokens!');
+			console.warn(err);
+		});
+		if (!tokens) return;
+		await saveData(tokens.access_token, tokens.refresh_token, tokens.id);
+		if (mounted) setAuthData({ status: 'LOGGED_IN', userID: tokens.id });
 	};
 
 	return (

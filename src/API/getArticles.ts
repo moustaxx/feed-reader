@@ -4,7 +4,6 @@ import withQuery from 'with-query';
 import useFetch from '../utils/useFetch';
 import { AuthContext } from '../contexts/AuthContext';
 
-
 export interface IEntires {
 	/** The unique, immutable ID for this particular article. */
 	id: string;
@@ -162,11 +161,9 @@ interface IInput {
 	continuation?: string;
 }
 
-const URL = 'http://sandbox7.feedly.com/v3/streams/contents/';
-
 const getArticles = () => {
 	const [{ userID }] = React.useContext(AuthContext);
-	const reqURL = withQuery<IInput>(URL, {
+	const reqURL = withQuery<IInput>('/v3/streams/contents/', {
 		streamId: encodeURI(`user/${userID}/category/global.all`),
 		count: 20,
 		unreadOnly: true,

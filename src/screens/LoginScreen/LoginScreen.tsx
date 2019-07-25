@@ -7,7 +7,7 @@ import { Text } from 'react-native-paper';
 import * as SecureStore from 'expo-secure-store';
 import URLParse from 'url-parse';
 
-import { REDIRECT_URI, CLIENT_ID } from '../../../config';
+import { REDIRECT_URI, CLIENT_ID, BASE_URL } from '../../../config';
 import loginScreenStyles from './LoginScreen.style';
 import { AuthContext } from '../../contexts/AuthContext';
 import getTokens from '../../API/getTokens';
@@ -38,7 +38,7 @@ interface IGetAuthCodeInput {
 	state?: string;
 }
 
-const authUrl = withQuery<IGetAuthCodeInput>('/v3/auth/auth', {
+const authUrl = withQuery<IGetAuthCodeInput>(`${BASE_URL}/v3/auth/auth`, {
 	response_type: 'code',
 	client_id: CLIENT_ID,
 	redirect_uri: encodeURI(REDIRECT_URI),

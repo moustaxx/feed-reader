@@ -8,7 +8,7 @@ npm-debug.*
 *.orig.*
 web-build
 web-report
-.env.ts
+config.ts
 yarn-error.log
 Thumbs.db
 .vscode

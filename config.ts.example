@@ -1,0 +1,4 @@
+export const BASE_URL = 'https://sandbox7.feedly.com'; // 'https://cloud.feedly.com' in production
+export const CLIENT_ID = 'sandbox'; // Client ID from feedly partnership program
+export const CLIENT_SECRET = 'YamL84gadHERJNcQ'; // The client secret obtained during application registration
+export const REDIRECT_URI = 'urn:ietf:wg:oauth:2.0:oob'; // URI where auth code is redirected

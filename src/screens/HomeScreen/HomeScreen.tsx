@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Title, ActivityIndicator, IconButton } from 'react-native-paper';
-import { ScrollView, NavigationScreenProps } from 'react-navigation';
+import { ScrollView, NavigationScreenProps, withNavigation } from 'react-navigation';
 import { format } from 'timeago.js';
 import innertext from 'innertext';
 
@@ -11,9 +11,16 @@ import markAllAsRead from '../../API/markAllAsRead';
 import ArticleItem from '../../components/ArticleItem/ArticleItem';
 import { navOpts } from '../../navigation/common';
 import theme from '../../theme';
+import articleScreenStyles from '../ArticleScreen/ArticleScreen.style';
 
-const HomeScreen = () => {
-	const { data, loading, error } = getArticles();
+const HomeScreen = ({ navigation }: NavigationScreenProps) => {
+	const { data, loading, error, refetch } = getArticles();
+
+	React.useEffect(() => {
+		navigation.setParams({ refetchFun: refetch });
+	}, [refetch]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
 	if (loading) {
 		return (
 			<View style={homeScreenStyles.message}>
@@ -67,14 +74,22 @@ HomeScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
 		...opts,
 		title: 'Feed Reader',
 		headerRight: (
-			<IconButton
-				icon="check"
-				color={theme.colors.headerElements}
-				style={{ marginRight: 16 }}
-				onPress={() => markAllAsRead()}
-			/>
+			<View style={articleScreenStyles.navHeaderRight}>
+				<IconButton
+					icon="refresh"
+					color={theme.colors.headerElements}
+					style={articleScreenStyles.navHeaderRightIcon}
+					onPress={() => { if (navigation.state.params) navigation.state.params.refetchFun(); }}
+				/>
+				<IconButton
+					icon="check"
+					color={theme.colors.headerElements}
+					style={articleScreenStyles.navHeaderRight}
+					onPress={() => markAllAsRead()}
+				/>
+			</View>
 		),
 	};
 };
 
-export default HomeScreen;
+export default withNavigation(HomeScreen);

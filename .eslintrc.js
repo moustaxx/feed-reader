@@ -15,6 +15,7 @@ module.exports = {
 		ecmaFeatures: { jsx: true },
 		sourceType: "module"
 	},
+	plugins: ["react-hooks"],
 	rules: {
 		'@typescript-eslint/array-type': 0,
 		'@typescript-eslint/explicit-function-return-type': 0,
@@ -33,6 +34,8 @@ module.exports = {
 		'object-curly-newline': ["error", { "consistent": true }],
 		'react/jsx-indent': ['error', 'tab'],
 		'react/jsx-indent-props': ['error', 'tab'],
-		'react/no-children-prop': 0
+		'react/no-children-prop': 0,
+		"react-hooks/rules-of-hooks": "error",
+		"react-hooks/exhaustive-deps": "warn"
 	},
 };

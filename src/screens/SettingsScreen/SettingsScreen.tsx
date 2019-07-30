@@ -9,7 +9,7 @@ import { SettingsContext, ISettings } from '../../utils/useSettings';
 import { AuthContext } from '../../contexts/AuthContext';
 
 const SettingsScreen = () => {
-	let mounted = true;
+	const mounted = React.useRef(true);
 	const [settings, setSettings] = React.useContext(SettingsContext);
 	const [, setAuthData] = React.useContext(AuthContext);
 
@@ -20,18 +20,18 @@ const SettingsScreen = () => {
 		setOptimistic({ ...optimistic, ...newOptimistic })
 	);
 
-	const saveSettings = () => {
+	const saveSettings = React.useCallback(() => {
 		setSettings(optimistic);
 		setSnackbarData({ visibility: true, content: 'Settings saved.' });
-	};
+	}, [optimistic, setSettings]);
 
 	React.useEffect(() => { // Saves settings
 		return () => saveSettings();
-	}, [optimistic]);
+	}, [saveSettings, optimistic]);
 
 	React.useEffect(() => {
 		return () => {
-			mounted = false;
+			mounted.current = false;
 		};
 	}, []);
 
@@ -41,9 +41,9 @@ const SettingsScreen = () => {
 			AsyncStorage.removeItem('userID'),
 			SecureStore.deleteItemAsync('accessToken'),
 			SecureStore.deleteItemAsync('refreshToken'),
-		]).catch((err) => {
+		]).catch(err => {
 			console.warn('Log out error!', err);
-			if (mounted) setSnackbarData({ visibility: true, content: 'Log out error!' });
+			if (mounted.current) setSnackbarData({ visibility: true, content: 'Log out error!' });
 		});
 		setAuthData({ userID: null, status: 'LOGGED_OUT' });
 	};

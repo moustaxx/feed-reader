@@ -32,7 +32,7 @@ const useSettings = () => {
 		};
 
 		initSettings();
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return {
 		loading,

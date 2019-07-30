@@ -63,11 +63,10 @@ const saveData = async (accessToken: string, refreshToken: string, userID: strin
 const LoginScreen = () => {
 	const [authError, setAuthError] = React.useState<string>();
 	const [, setAuthData] = React.useContext(AuthContext);
-	let mounted = true;
-
+	const mounted = React.useRef(true);
 	React.useEffect(() => {
 		return () => {
-			mounted = false;
+			mounted.current = false;
 		};
 	}, []);
 
@@ -84,7 +83,7 @@ const LoginScreen = () => {
 		});
 		if (!tokens) return;
 		await saveData(tokens.access_token, tokens.refresh_token, tokens.id);
-		if (mounted) setAuthData({ status: 'LOGGED_IN', userID: tokens.id });
+		if (mounted.current) setAuthData({ status: 'LOGGED_IN', userID: tokens.id });
 	};
 
 	return (

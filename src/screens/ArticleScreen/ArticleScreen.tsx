@@ -15,7 +15,7 @@ const ArticleScreen = ({ navigation }: NavigationScreenProps) => {
 
 	React.useEffect(() => {
 		navigation.setParams({ Title: article.title });
-	}, [article]);
+	}, [article]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const goToSource = () => (article.targetURL ? Linking.openURL(article.targetURL) : alert('No link'));
 	const img = article.imageURL ? { uri: article.imageURL } : placeholderIMG;

@@ -70,6 +70,10 @@ const HomeScreen = ({ navigation }: NavigationScreenProps) => {
 
 HomeScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
 	const opts = navOpts(navigation);
+	const markAndRefresh = async () => {
+		await markAllAsRead();
+		if (navigation.state.params) navigation.state.params.refetchFun();
+	};
 	return {
 		...opts,
 		title: 'Feed Reader',
@@ -85,7 +89,7 @@ HomeScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
 					icon="check"
 					color={theme.colors.headerElements}
 					style={articleScreenStyles.navHeaderRight}
-					onPress={() => markAllAsRead()}
+					onPress={markAndRefresh}
 				/>
 			</View>
 		),

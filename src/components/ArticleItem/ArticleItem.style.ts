@@ -27,8 +27,7 @@ const articleStyles = StyleSheet.create({
 	},
 	content: {
 		flex: 1,
-		flexWrap: 'wrap',
-		flexDirection: 'row',
+		flexDirection: 'column',
 	},
 	captions: {
 		flexDirection: 'row',

@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, AsyncStorage } from 'react-native';
+import { View } from 'react-native';
 import { Switch, Subheading, Title, Snackbar, Button } from 'react-native-paper';
 import { ScrollView } from 'react-navigation';
-import * as SecureStore from 'expo-secure-store';
 
 import settingsStyles from './SettingsScreen.style';
 import { SettingsContext, ISettings } from '../../utils/useSettings';
 import { AuthContext } from '../../contexts/AuthContext';
+import logout from '../../API/logout';
 
 const SettingsScreen = () => {
 	const mounted = React.useRef(true);
@@ -35,13 +35,8 @@ const SettingsScreen = () => {
 		};
 	}, []);
 
-	const logout = async () => {
-		await Promise.all([
-			fetch('http://sandbox7.feedly.com/v3/auth/logout', { method: 'POST' }),
-			AsyncStorage.removeItem('userID'),
-			SecureStore.deleteItemAsync('accessToken'),
-			SecureStore.deleteItemAsync('refreshToken'),
-		]).catch(err => {
+	const handleLogout = async () => {
+		await logout().catch(err => {
 			console.warn('Log out error!', err);
 			if (mounted.current) setSnackbarData({ visibility: true, content: 'Log out error!' });
 		});
@@ -66,7 +61,7 @@ const SettingsScreen = () => {
 						compact
 						children="Log out"
 						mode="contained"
-						onPress={logout}
+						onPress={handleLogout}
 					/>
 				</View>
 			</ScrollView>

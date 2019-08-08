@@ -88,7 +88,7 @@ const LoginScreen = () => {
 
 	return (
 		<View style={loginScreenStyles.root}>
-			{authError ? (<Text>{authError}</Text>) : (
+			{authError ? (<Text style={loginScreenStyles.heading}>{authError}</Text>) : (
 				<WebView
 					source={{ uri: authUrl }}
 					onNavigationStateChange={navEvent => handleAuth(navEvent.url)}

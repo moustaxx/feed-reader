@@ -5,6 +5,7 @@ import { navOpts } from './common';
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import ArticleScreen from '../screens/ArticleScreen/ArticleScreen';
+import MenuDrawer from './MenuDrawer/MenuDrawer';
 
 const HomeStack = createStackNavigator({
 	HomeScreen,
@@ -27,7 +28,7 @@ const SettingsStack = createStackNavigator({
 const AuthNavigator = createDrawerNavigator({
 	Home: HomeStack,
 	Settings: SettingsStack,
-});
+}, { contentComponent: MenuDrawer });
 
 const AuthNavigationContainer = createAppContainer(AuthNavigator);
 export default AuthNavigationContainer;

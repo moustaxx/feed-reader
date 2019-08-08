@@ -161,7 +161,7 @@ interface IInput {
 	continuation?: string;
 }
 
-const getArticles = () => {
+const useGetArticles = () => {
 	const [{ userID }] = React.useContext(AuthContext);
 	const reqURL = withQuery<IInput>('/v3/streams/contents/', {
 		streamId: encodeURI(`user/${userID}/category/global.all`),
@@ -172,4 +172,4 @@ const getArticles = () => {
 	return useFetch<IGetArticles>(reqURL);
 };
 
-export default getArticles;
+export default useGetArticles;

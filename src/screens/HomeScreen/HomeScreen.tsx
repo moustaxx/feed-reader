@@ -6,7 +6,7 @@ import { format } from 'timeago.js';
 import innertext from 'innertext';
 
 import homeScreenStyles from './HomeScreen.style';
-import getArticles from '../../API/getArticles';
+import useGetArticles from '../../API/useGetArticles';
 import markAllAsRead from '../../API/markAllAsRead';
 import ArticleItem from '../../components/ArticleItem/ArticleItem';
 import { navOpts } from '../../navigation/common';
@@ -14,7 +14,7 @@ import theme from '../../theme';
 import articleScreenStyles from '../ArticleScreen/ArticleScreen.style';
 
 const HomeScreen = ({ navigation }: NavigationScreenProps) => {
-	const { data, loading, error, refetch } = getArticles();
+	const { data, loading, error, refetch } = useGetArticles();
 
 	React.useEffect(() => {
 		navigation.setParams({ refetchFun: refetch });

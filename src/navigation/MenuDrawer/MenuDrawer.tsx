@@ -1,11 +1,13 @@
+// eslint-disable-next-line import/no-unresolved
+import { DrawerNavigatorItemsProps } from 'react-navigation-drawer/lib/typescript/types';
 import React from 'react';
 import { View, ScrollView, Text, Image } from 'react-native';
-import { DrawerItemsProps, DrawerItems } from 'react-navigation';
+import { DrawerNavigatorItems } from 'react-navigation-drawer';
 
 import logoIcon from '../../../assets/small-icon.png';
 import menuDrawerStyles from './MenuDrawer.style';
 
-const MenuDrawer = (props: DrawerItemsProps) => {
+const MenuDrawer = (props: DrawerNavigatorItemsProps) => {
 	return (
 		<View style={menuDrawerStyles.container}>
 			<ScrollView style={menuDrawerStyles.scroller}>
@@ -13,7 +15,7 @@ const MenuDrawer = (props: DrawerItemsProps) => {
 					<Image style={menuDrawerStyles.headerImg} source={logoIcon} />
 					<Text style={menuDrawerStyles.headerText}>Feed Reader</Text>
 				</View>
-				<DrawerItems {...props} />
+				<DrawerNavigatorItems {...props} />
 			</ScrollView>
 			<View style={menuDrawerStyles.footer}>
 				<Text style={menuDrawerStyles.description}>Feed Reader</Text>

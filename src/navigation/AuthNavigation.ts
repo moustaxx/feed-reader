@@ -1,5 +1,7 @@
-import { createStackNavigator, createAppContainer,
-	createDrawerNavigator, NavigationScreenProps } from 'react-navigation';
+import { createAppContainer,
+	NavigationScreenProps } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack';
 
 import { navOpts } from './common';
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';

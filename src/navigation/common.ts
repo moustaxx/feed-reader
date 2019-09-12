@@ -24,13 +24,13 @@ export const navOpts = (
 	navigation: NavigationScreenProp<NavigationRoute<NavigationParams>, NavigationParams>,
 ) => ({
 	headerLeft: shouldShowBackButton(navigation)
-		? React.createElement(IconButton, {
+		? () => React.createElement(IconButton, {
 			icon: 'arrow-back',
 			color: theme.colors.headerElements,
 			style: { marginHorizontal: 16 },
 			onPress: () => navigation.goBack(),
 		})
-		: React.createElement(IconButton, {
+		: () => React.createElement(IconButton, {
 			icon: 'menu',
 			color: theme.colors.headerElements,
 			style: { marginHorizontal: 16 },

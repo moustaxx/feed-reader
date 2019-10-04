@@ -7,6 +7,7 @@ import { navOpts } from './common';
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
 import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import ArticleScreen from '../screens/ArticleScreen/ArticleScreen';
+import ProfileScreen from '../screens/ProfileScreen/ProfileScreen';
 import MenuDrawer from './MenuDrawer/MenuDrawer';
 
 const HomeStack = createStackNavigator({
@@ -27,9 +28,14 @@ const SettingsStack = createStackNavigator({
 	},
 }, { initialRouteName: 'Settings' });
 
+const MyProfileStack = createStackNavigator({
+	ProfileScreen,
+}, { initialRouteName: 'ProfileScreen' });
+
 const AuthNavigator = createDrawerNavigator({
 	Home: HomeStack,
 	Settings: SettingsStack,
+	MyProfile: MyProfileStack,
 }, { contentComponent: MenuDrawer });
 
 const AuthNavigationContainer = createAppContainer(AuthNavigator);

@@ -61,16 +61,9 @@ ArticleScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
 					style={articleScreenStyles.navHeaderRightIcon}
 					onPress={() => 'save'}
 				/>
-				<IconButton
-					icon="check"
-					color={theme.colors.headerElements}
-					style={articleScreenStyles.navHeaderRight}
-					onPress={() => 'mark as read'}
-				/>
 			</View>
 		),
 	};
 };
-
 
 export default withNavigation(ArticleScreen);

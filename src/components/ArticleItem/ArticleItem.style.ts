@@ -36,6 +36,9 @@ const articleStyles = StyleSheet.create({
 	flameIcon: {
 		marginRight: 2,
 	},
+	readTextColor: {
+		color: '#666',
+	},
 });
 
 export default articleStyles;

@@ -51,6 +51,7 @@ const HomeScreen = ({ navigation }: NavigationScreenProps) => {
 					id: _article.id,
 					title: _article.title,
 					content: content && innertext(content),
+					unread: _article.unread,
 					imageURL: _article.visual && _article.visual.url !== 'none' ? _article.visual.url : undefined,
 					targetURL: _article.alternate && _article.alternate[0].href,
 					sourceName: _article.origin ? _article.origin.title : 'Unknown',
@@ -70,9 +71,10 @@ const HomeScreen = ({ navigation }: NavigationScreenProps) => {
 
 HomeScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
 	const opts = navOpts(navigation);
+	const refresh = () => { if (navigation.state.params) navigation.state.params.refetchFun(); };
 	const markAndRefresh = async () => {
 		await markAllAsRead();
-		if (navigation.state.params) navigation.state.params.refetchFun();
+		refresh();
 	};
 	return {
 		...opts,
@@ -83,7 +85,7 @@ HomeScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
 					icon="refresh"
 					color={theme.colors.headerElements}
 					style={articleScreenStyles.navHeaderRightIcon}
-					onPress={() => { if (navigation.state.params) navigation.state.params.refetchFun(); }}
+					onPress={refresh}
 				/>
 				<IconButton
 					icon="check"

@@ -6,11 +6,13 @@ import { useNavigation } from 'react-navigation-hooks';
 
 import articleStyles from './ArticleItem.style';
 import { SettingsContext } from '../../utils/useSettings';
+import markOneAsRead from '../../API/markOneAsRead';
 
 export interface IArticle {
-	id: string | number;
+	id: string;
 	title?: string;
 	content: string;
+	unread: boolean;
 	imageURL?: string;
 	targetURL?: string;
 	sourceName: string;
@@ -25,7 +27,10 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 	const { navigate } = useNavigation();
 	const [{ articlePictureOnLeft }] = React.useContext(SettingsContext);
 
-	const goToArticle = () => navigate('ArticleScreen', { article });
+	const goToArticle = () => {
+		navigate('ArticleScreen', { article });
+		markOneAsRead(article.id);
+	};
 
 	return (
 		<TouchableRipple onPress={goToArticle}>
@@ -38,7 +43,7 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 				)}
 				<View style={articleStyles.content}>
 					<Subheading
-						style={articleStyles.title}
+						style={[articleStyles.title, article.unread && articleStyles.readTextColor]}
 						numberOfLines={3}
 						children={article.title}
 					/>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Title, ActivityIndicator, IconButton } from 'react-native-paper';
-import { ScrollView, NavigationScreenProps, withNavigation } from 'react-navigation';
+import { ScrollView, withNavigation } from 'react-navigation';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { format } from 'timeago.js';
 import innertext from 'innertext';
 
@@ -13,7 +14,7 @@ import { navOpts } from '../../navigation/common';
 import theme from '../../theme';
 import articleScreenStyles from '../ArticleScreen/ArticleScreen.style';
 
-const HomeScreen = ({ navigation }: NavigationScreenProps) => {
+const HomeScreen = ({ navigation }: NavigationStackScreenProps) => {
 	const { data, loading, error, refetch } = useGetArticles();
 
 	React.useEffect(() => {
@@ -45,7 +46,7 @@ const HomeScreen = ({ navigation }: NavigationScreenProps) => {
 	const articles = data.items;
 	return (
 		<ScrollView>
-			{articles.map(_article => {
+			{articles.map((_article) => {
 				const { content } = _article.summary || _article.content || {} as any;
 				const article = {
 					id: _article.id,
@@ -69,7 +70,7 @@ const HomeScreen = ({ navigation }: NavigationScreenProps) => {
 	);
 };
 
-HomeScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
+HomeScreen.navigationOptions = ({ navigation }: NavigationStackScreenProps) => {
 	const opts = navOpts(navigation);
 	const refresh = () => { if (navigation.state.params) navigation.state.params.refetchFun(); };
 	const markAndRefresh = async () => {

@@ -25,7 +25,7 @@ export const navOpts = (
 ) => ({
 	headerLeft: shouldShowBackButton(navigation)
 		? () => React.createElement(IconButton, {
-			icon: 'arrow-back',
+			icon: 'arrow-left',
 			color: theme.colors.headerElements,
 			style: { marginHorizontal: 16 },
 			onPress: () => navigation.goBack(),

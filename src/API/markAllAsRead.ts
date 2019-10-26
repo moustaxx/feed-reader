@@ -11,7 +11,7 @@ interface IInput {
 }
 
 const markAllAsRead = async () => {
-	const userID = await AsyncStorage.getItem('userID').catch(err => {
+	const userID = await AsyncStorage.getItem('userID').catch((err) => {
 		console.warn('Can not get userID!');
 		throw Error(err);
 	});

@@ -19,7 +19,7 @@ const throwErr = (status: number) => {
 };
 
 export async function makeRequestFetch(url: string, options: RequestInit): Promise<Response> {
-	const res = await fetch(BASE_URL + url, options).catch(err => { throw Error(err); });
+	const res = await fetch(BASE_URL + url, options).catch((err) => { throw Error(err); });
 	if (res.ok) return res;
 	const json: IFeedlyError = await res.json().catch(() => throwErr(res.status));
 	if (!json.errorCode) throwErr(res.status);
@@ -36,7 +36,7 @@ export async function fetchRes(url: string, options: RequestInit = {}): Promise<
 		},
 	};
 
-	return makeRequestFetch(url, mergedOptions).catch(async error => {
+	return makeRequestFetch(url, mergedOptions).catch(async (error) => {
 		if (error.message.includes('Feedly API Error 401')) {
 			await refreshAccessToken();
 			return makeRequestFetch(url, options);

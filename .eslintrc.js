@@ -34,6 +34,7 @@ module.exports = {
 		'object-curly-newline': ["error", { "consistent": true }],
 		'react/jsx-indent': ['error', 'tab'],
 		'react/jsx-indent-props': ['error', 'tab'],
+		'react/jsx-props-no-spreading': 0,
 		'react/no-children-prop': 0,
 		"react-hooks/rules-of-hooks": "error",
 		"react-hooks/exhaustive-deps": "warn"

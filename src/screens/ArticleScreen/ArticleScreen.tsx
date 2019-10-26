@@ -1,7 +1,8 @@
 import React from 'react';
 import { Image, View, Linking } from 'react-native';
 import { Title, Paragraph, Caption, Button, IconButton } from 'react-native-paper';
-import { NavigationScreenProps, withNavigation, ScrollView } from 'react-navigation';
+import { withNavigation, ScrollView } from 'react-navigation';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import placeholderIMG from '../../../assets/placeholder.png';
@@ -10,7 +11,7 @@ import { IArticle } from '../../components/ArticleItem/ArticleItem';
 import { navOpts } from '../../navigation/common';
 import theme from '../../theme';
 
-const ArticleScreen = ({ navigation }: NavigationScreenProps) => {
+const ArticleScreen = ({ navigation }: NavigationStackScreenProps) => {
 	const article: IArticle = navigation.getParam('article');
 
 	React.useEffect(() => {
@@ -47,7 +48,7 @@ const ArticleScreen = ({ navigation }: NavigationScreenProps) => {
 	);
 };
 
-ArticleScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
+ArticleScreen.navigationOptions = ({ navigation }: NavigationStackScreenProps) => {
 	const opts = navOpts(navigation);
 	return {
 		...opts,
@@ -56,7 +57,7 @@ ArticleScreen.navigationOptions = ({ navigation }: NavigationScreenProps) => {
 		headerRight: (
 			<View style={articleScreenStyles.navHeaderRight}>
 				<IconButton
-					icon="save"
+					icon="content-save"
 					color={theme.colors.headerElements}
 					style={articleScreenStyles.navHeaderRightIcon}
 					onPress={() => 'save'}

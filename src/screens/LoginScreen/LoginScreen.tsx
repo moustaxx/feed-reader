@@ -57,7 +57,7 @@ const saveData = async (accessToken: string, refreshToken: string, userID: strin
 		SecureStore.setItemAsync('accessToken', accessToken),
 		SecureStore.setItemAsync('refreshToken', refreshToken),
 		AsyncStorage.setItem('userID', userID),
-	]).catch(err => console.warn('UserID or tokens can not be saved in Storage!', err));
+	]).catch((err) => console.warn('UserID or tokens can not be saved in Storage!', err));
 };
 
 const LoginScreen = () => {
@@ -77,7 +77,7 @@ const LoginScreen = () => {
 			if (query.error) setAuthError(query.error);
 			return;
 		}
-		const tokens = await getTokens(query.code).catch(err => {
+		const tokens = await getTokens(query.code).catch((err) => {
 			setAuthError('Can not get tokens!');
 			console.warn(err);
 		});
@@ -91,7 +91,7 @@ const LoginScreen = () => {
 			{authError ? (<Text style={loginScreenStyles.heading}>{authError}</Text>) : (
 				<WebView
 					source={{ uri: authUrl }}
-					onNavigationStateChange={navEvent => handleAuth(navEvent.url)}
+					onNavigationStateChange={(navEvent) => handleAuth(navEvent.url)}
 				/>
 			)}
 		</View>

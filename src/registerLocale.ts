@@ -1,10 +1,12 @@
 import { register } from 'timeago.js';
+import { LocaleFunc } from 'timeago.js/lib/interface';
 
-const localeFunc = (_number: number, index: number, _totalSec: number) => {
+const localeFunc: LocaleFunc = (number, index) => {
 	// number: the timeago / timein number;
 	// index: the index of array below;
-	// total_sec: total seconds between date to be formatted and today's date;
-	return [
+	// totalSec?: total seconds between date to be formatted and today's date;
+
+	const locale: Array<[string, string]> = [
 		['now', 'right now'],
 		['%ss', 'in %s seconds'],
 		['1m', 'in 1 minute'],
@@ -19,7 +21,9 @@ const localeFunc = (_number: number, index: number, _totalSec: number) => {
 		['%smo', 'in %s months'],
 		['1 year', 'in 1 year'],
 		['%s years', 'in %s years'],
-	][index];
+	];
+
+	return locale[index];
 };
 // register your locale with timeago
 register('my-locale', localeFunc);

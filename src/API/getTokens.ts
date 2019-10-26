@@ -45,7 +45,7 @@ const getTokens = async (code: string) => {
 		redirect_uri: encodeURI(REDIRECT_URI),
 		grant_type: 'authorization_code',
 	});
-	const data = await fetchJSON<IGetTokenRes>(getTokenUrl, { method: 'POST' }).catch(err => {
+	const data = await fetchJSON<IGetTokenRes>(getTokenUrl, { method: 'POST' }).catch((err) => {
 		throw Error(err);
 	});
 	return data;

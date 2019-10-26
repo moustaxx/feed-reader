@@ -36,7 +36,7 @@ const SettingsScreen = () => {
 	}, []);
 
 	const handleLogout = async () => {
-		await logout().catch(err => {
+		await logout().catch((err) => {
 			console.warn('Log out error!', err);
 			if (mounted.current) setSnackbarData({ visibility: true, content: 'Log out error!' });
 		});

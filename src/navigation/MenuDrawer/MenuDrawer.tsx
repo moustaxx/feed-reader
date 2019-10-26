@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-unresolved
-import { DrawerNavigatorItemsProps } from 'react-navigation-drawer/lib/typescript/types';
+import { DrawerNavigatorItemsProps } from 'react-navigation-drawer/lib/typescript/src/types';
 import React from 'react';
 import { View, ScrollView, Text, Image } from 'react-native';
 import { DrawerNavigatorItems } from 'react-navigation-drawer';

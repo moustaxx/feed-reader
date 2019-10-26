@@ -12,7 +12,7 @@ const ProfileScreen = () => {
 			<Text>
 				{error.message}
 			</Text>
-		); 
+		);
 	}
 	if (loading) {
 		return (

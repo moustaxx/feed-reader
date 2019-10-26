@@ -1,7 +1,6 @@
-import { createAppContainer,
-	NavigationScreenProps } from 'react-navigation';
+import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator, NavigationStackScreenProps } from 'react-navigation-stack';
 
 import { navOpts } from './common';
 import SettingsScreen from '../screens/SettingsScreen/SettingsScreen';
@@ -18,7 +17,7 @@ const HomeStack = createStackNavigator({
 const SettingsStack = createStackNavigator({
 	Settings: {
 		screen: SettingsScreen,
-		navigationOptions: ({ navigation }: NavigationScreenProps) => {
+		navigationOptions: ({ navigation }: NavigationStackScreenProps) => {
 			const opts = navOpts(navigation);
 			return {
 				title: 'Settings',

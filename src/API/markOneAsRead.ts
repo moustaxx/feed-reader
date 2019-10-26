@@ -1,4 +1,4 @@
-import { fetchJSON } from '../utils/myFetch';
+import { fetchRes } from '../utils/myFetch';
 
 interface IBody {
 	action: string;
@@ -7,11 +7,8 @@ interface IBody {
 }
 
 const markOneAsRead = async (entryID: string) => {
-	const data = await fetchJSON('/v3/markers', {
+	const data = await fetchRes('/v3/markers', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
 		body: JSON.stringify({
 			action: 'markAsRead',
 			type: 'entries',

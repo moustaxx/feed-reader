@@ -43,7 +43,7 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 				)}
 				<View style={articleStyles.content}>
 					<Subheading
-						style={[articleStyles.title, article.unread && articleStyles.readTextColor]}
+						style={[articleStyles.title, !article.unread && articleStyles.readTextColor]}
 						numberOfLines={3}
 						children={article.title}
 					/>

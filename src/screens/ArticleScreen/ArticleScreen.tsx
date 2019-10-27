@@ -60,7 +60,7 @@ ArticleScreen.navigationOptions = ({ navigation }: NavigationStackScreenProps) =
 					icon="content-save"
 					color={theme.colors.headerElements}
 					style={articleScreenStyles.navHeaderRightIcon}
-					onPress={() => 'save'}
+					onPress={() => console.log('save')}
 				/>
 			</View>
 		),

@@ -92,7 +92,7 @@ HomeScreen.navigationOptions = ({ navigation }: NavigationStackScreenProps) => {
 					icon="check"
 					color={theme.colors.headerElements}
 					style={articleScreenStyles.navHeaderRight}
-					onPress={markAndRefresh}
+					onPress={() => { markAndRefresh(); }}
 				/>
 			</View>
 		),

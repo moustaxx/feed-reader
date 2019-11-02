@@ -4,7 +4,7 @@ import withQuery from 'with-query';
 import useFetch from '../utils/useFetch';
 import { AuthContext } from '../contexts/AuthContext';
 
-export interface IEntires {
+export interface IGetArticlesItem {
 	/** The unique, immutable ID for this particular article. */
 	id: string;
 	/** Optional string the article’s title. This string does not contain any HTML markup. */
@@ -136,11 +136,11 @@ export interface IEntires {
 	engagementRate?: number;
 }
 
-interface IGetArticles {
+export interface IGetArticles {
 	/** Query ID. */
 	id: string;
 	/** Array of object. Containing articles. */
-	items: IEntires[];
+	items: IGetArticlesItem[];
 }
 
 interface IInput {

@@ -3,24 +3,27 @@ import { View } from 'react-native';
 import { Title, ActivityIndicator, IconButton } from 'react-native-paper';
 import { ScrollView, withNavigation } from 'react-navigation';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { useDispatch } from 'react-redux';
 import { format } from 'timeago.js';
 import innertext from 'innertext';
 
 import homeScreenStyles from './HomeScreen.style';
+import articleScreenStyles from '../ArticleScreen/ArticleScreen.style';
 import useGetArticles from '../../API/useGetArticles';
 import markAllAsRead from '../../API/markAllAsRead';
 import ArticleItem from '../../components/ArticleItem/ArticleItem';
 import { navOpts } from '../../navigation/common';
 import theme from '../../theme';
-import articleScreenStyles from '../ArticleScreen/ArticleScreen.style';
+import { articlesFetchData } from '../../store/articles/articles.actions';
 
 const HomeScreen = ({ navigation }: NavigationStackScreenProps) => {
 	const { data, loading, error, refetch } = useGetArticles();
+	const dispatch = useDispatch();
 
 	React.useEffect(() => {
+		dispatch(articlesFetchData());
 		navigation.setParams({ refetchFun: refetch });
 	}, [refetch]); // eslint-disable-line react-hooks/exhaustive-deps
-
 
 	if (loading) {
 		return (
@@ -43,6 +46,7 @@ const HomeScreen = ({ navigation }: NavigationStackScreenProps) => {
 			</View>
 		);
 	}
+
 	const articles = data.items;
 	return (
 		<ScrollView>

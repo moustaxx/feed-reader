@@ -19,7 +19,7 @@ const throwErr = (status: number) => {
 };
 
 export async function makeRequestFetch(url: string, options: RequestInit): Promise<Response> {
-	const res = await fetch(BASE_URL + url, options).catch((err) => { throw Error(err); });
+	const res = await fetch(BASE_URL + url, options);
 	if (res.ok) return res;
 	const json: IFeedlyError = await res.json().catch(() => throwErr(res.status));
 	if (!json.errorCode) throwErr(res.status);

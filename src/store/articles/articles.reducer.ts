@@ -1,38 +1,38 @@
 import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess } from './articles.actions';
-import { IGetArticlesItem } from '../../API/useGetArticles';
+import { IArticle } from '../../components/ArticleItem/ArticleItem';
 
 type TAction =
 	| ReturnType<typeof articlesHasErrored>
 	| ReturnType<typeof articlesIsLoading>
 	| ReturnType<typeof articlesFetchDataSuccess>;
 
-type IState = Readonly<{
+export type IState = Readonly<{
 	error: string | null;
 	isLoading: boolean;
-	items: ReadonlyArray<IGetArticlesItem>;
+	articles: ReadonlyArray<IArticle>;
 }>;
 
 const initialState: IState = {
 	error: null,
 	isLoading: false,
-	items: [],
+	articles: [],
 };
 
 const articlesReducer = (state = initialState, action: TAction): IState => {
 	try {
 		switch (action.type) {
-			case 'ITEMS_HAS_ERRORED':
-			case 'ITEMS_IS_LOADING':
+			case 'ARTICLES_HAS_ERRORED':
+			case 'ARTICLES_IS_LOADING':
 				return {
 					...state,
 					...action.payload,
 				};
-			case 'ITEMS_FETCH_DATA_SUCCESS':
+			case 'ARTICLES_FETCH_DATA_SUCCESS':
 				return {
 					...state,
-					items: [
-						...state.items,
-						...action.payload.items,
+					articles: [
+						...state.articles,
+						...action.payload.articles,
 					],
 				};
 			default:

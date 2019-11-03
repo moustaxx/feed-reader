@@ -1,12 +1,16 @@
 import { Dispatch } from 'redux';
 import withQuery from 'with-query';
+import innertext from 'innertext';
+import { format } from 'timeago.js';
 
+import { IGetArticles } from '../../API/useGetArticles';
+import { IArticle } from '../../components/ArticleItem/ArticleItem';
 import { fetchJSON } from '../../utils/myFetch';
 import { IGetArticles, IGetArticlesItem } from '../../API/useGetArticles';
 
 export const articlesHasErrored = (error: string) => {
 	return {
-		type: 'ITEMS_HAS_ERRORED',
+		type: 'ARTICLES_HAS_ERRORED',
 		payload: {
 			error,
 		},
@@ -15,18 +19,18 @@ export const articlesHasErrored = (error: string) => {
 
 export const articlesIsLoading = (isLoading: boolean) => {
 	return {
-		type: 'ITEMS_IS_LOADING',
+		type: 'ARTICLES_IS_LOADING',
 		payload: {
 			isLoading,
 		},
 	} as const;
 };
 
-export const articlesFetchDataSuccess = (items: IGetArticlesItem[]) => {
+export const articlesFetchDataSuccess = (articles: IArticle[]) => {
 	return {
-		type: 'ITEMS_FETCH_DATA_SUCCESS',
+		type: 'ARTICLES_FETCH_DATA_SUCCESS',
 		payload: {
-			items,
+			articles,
 		},
 	} as const;
 };
@@ -34,17 +38,25 @@ export const articlesFetchDataSuccess = (items: IGetArticlesItem[]) => {
 export const articlesFetchData = () => async (dispatch: Dispatch) => {
 	dispatch(articlesIsLoading(true));
 	try {
-		const reqURL = withQuery('/v3/streams/contents/', {
-			streamId: encodeURI('feed/http://www.independent.co.uk/news/rss'),
-			count: 20,
-			unreadOnly: true,
-			ranked: 'newest',
-		});
-
 		const data = await fetchJSON<IGetArticles>(reqURL);
 
+		const articles = data.items.map((_article) => {
+			const { content } = _article.summary || _article.content || {} as any;
+			return {
+				id: _article.id,
+				title: _article.title,
+				content: content && innertext(content),
+				unread: _article.unread,
+				imageURL: _article.visual && _article.visual.url !== 'none' ? _article.visual.url : undefined,
+				targetURL: _article.alternate && _article.alternate[0].href,
+				sourceName: _article.origin ? _article.origin.title : 'Unknown',
+				engagement: _article.engagement ? _article.engagement : 0,
+				crawled: format(_article.crawled, 'my-locale'),
+			};
+		});
+
 		dispatch(articlesIsLoading(false));
-		dispatch(articlesFetchDataSuccess(data.items));
+		dispatch(articlesFetchDataSuccess(articles));
 	} catch (error) {
 		console.error(error);
 		dispatch(articlesIsLoading(false));

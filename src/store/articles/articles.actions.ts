@@ -47,6 +47,7 @@ export const articlesFetchData = () => async (dispatch: Dispatch) => {
 				title: _article.title,
 				content: content && innertext(content),
 				unread: _article.unread,
+					thumbnail: _article.thumbnail && _article.thumbnail[0].url,
 				imageURL: _article.visual && _article.visual.url !== 'none' ? _article.visual.url : undefined,
 				targetURL: _article.alternate && _article.alternate[0].href,
 				sourceName: _article.origin ? _article.origin.title : 'Unknown',

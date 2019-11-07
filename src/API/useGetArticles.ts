@@ -14,14 +14,14 @@ export interface IGetArticlesItem {
 		/** The content contains sanitized HTML markup. */
 		content: string;
 		/** `ltr` for left-to-right, `rtl` for right-to-left */
-		direction: 'ltr' | 'rtl';
+		direction: string;
 	};
 	/** Optional content object the article summary. See the content object above. */
 	summary?: {
 		/** The content contains sanitized HTML markup. */
 		content: string;
 		/** “ltr” for left-to-right, “rtl” for right-to-left. */
-		direction: 'ltr' | 'rtl';
+		direction: string;
 	};
 	/** Optional string the author’s name. */
 	author?: string;
@@ -101,7 +101,7 @@ export interface IGetArticlesItem {
 	 *  that the user associated with the feed of this entry.
 	 *
 	 *  This value is only returned if an Authorization header is provided. */
-	categories: Array<{
+	categories?: Array<{
 		id: string;
 		label: string;
 	}>;
@@ -134,6 +134,9 @@ export interface IGetArticlesItem {
 	/** Rate of the readers that read, saved or shared
 	 *  this particular entry. */
 	engagementRate?: number;
+	thumbnail?: Array<{
+		url: string;
+	}>;
 }
 
 export interface IGetArticles {

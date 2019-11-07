@@ -13,6 +13,7 @@ export interface IArticle {
 	title?: string;
 	content: string;
 	unread: boolean;
+	thumbnail?: string;
 	imageURL?: string;
 	targetURL?: string;
 	sourceName: string;
@@ -35,9 +36,9 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 	return (
 		<TouchableRipple onPress={goToArticle}>
 			<View style={articleStyles.root}>
-				{article.imageURL && articlePictureOnLeft && (
+				{article.thumbnail && articlePictureOnLeft && (
 					<Image
-						source={{ uri: article.imageURL }}
+						source={{ uri: article.thumbnail }}
 						style={articleStyles.imageLeft}
 					/>
 				)}
@@ -61,9 +62,9 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 						<Caption>{article.engagement} | {article.sourceName} | {article.crawled}</Caption>
 					</View>
 				</View>
-				{article.imageURL && !articlePictureOnLeft && (
+				{article.thumbnail && !articlePictureOnLeft && (
 					<Image
-						source={{ uri: article.imageURL }}
+						source={{ uri: article.thumbnail }}
 						style={articleStyles.imageRight}
 					/>
 				)}

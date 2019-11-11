@@ -3,30 +3,19 @@ import { View, Image } from 'react-native';
 import { Paragraph, Subheading, Caption, TouchableRipple } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from 'react-navigation-hooks';
+import { useSelector } from 'react-redux';
 
 import articleStyles from './ArticleItem.style';
-import { SettingsContext } from '../../utils/useSettings';
 import markOneAsRead from '../../API/markOneAsRead';
+import { IAppState, IArticle } from '../../store/types';
 
-export interface IArticle {
-	id: string;
-	title?: string;
-	content: string;
-	unread: boolean;
-	thumbnail?: string;
-	imageURL?: string;
-	targetURL?: string;
-	sourceName: string;
-	engagement: number;
-	crawled: string;
-}
 export interface IArticleItemProps {
 	article: IArticle;
 }
 
 const ArticleItem = ({ article }: IArticleItemProps) => {
 	const { navigate } = useNavigation();
-	const [{ articlePictureOnLeft }] = React.useContext(SettingsContext);
+	const { articlePictureOnLeft } = useSelector((state: IAppState) => state.settings);
 
 	const goToArticle = () => {
 		navigate('ArticleScreen', { article });

@@ -6,8 +6,7 @@ import { format } from 'timeago.js';
 
 import { fetchJSON } from '../../utils/myFetch';
 import { IGetArticles } from '../../API/useGetArticles';
-import { IArticle } from '../../components/ArticleItem/ArticleItem';
-import { IAppState } from '../types';
+import { IAppState, IArticle } from '../types';
 
 export const articlesHasErrored = (error: string) => {
 	return {

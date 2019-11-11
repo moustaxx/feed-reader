@@ -9,11 +9,9 @@ import './registerLocale';
 import theme from './theme';
 import { store, persistor } from './store';
 import NavigationWrapper from './navigation';
-import useSettings, { SettingsContext } from './utils/useSettings';
 import { AuthContext, IAuthStatus } from './contexts/AuthContext';
 
 const Main = () => {
-	const { loading, settings, setSettings } = useSettings();
 	const [authState, setAuthState] = React.useState<null | IAuthStatus>(null);
 
 	React.useEffect(() => {
@@ -25,15 +23,13 @@ const Main = () => {
 		getUserID();
 	}, []);
 
-	if (!authState || loading) return <AppLoading />;
+	if (!authState) return <AppLoading />;
 	return (
 		<ReduxProvider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
 				<PaperProvider theme={theme}>
 					<AuthContext.Provider value={[authState, setAuthState]}>
-						<SettingsContext.Provider value={[settings, setSettings]}>
-							<NavigationWrapper />
-						</SettingsContext.Provider>
+						<NavigationWrapper />
 					</AuthContext.Provider>
 				</PaperProvider>
 			</PersistGate>

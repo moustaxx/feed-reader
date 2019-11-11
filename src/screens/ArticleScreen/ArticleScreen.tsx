@@ -7,7 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import placeholderIMG from '../../../assets/placeholder.png';
 import articleScreenStyles from './ArticleScreen.style';
-import { IArticle } from '../../components/ArticleItem/ArticleItem';
+import { IArticle } from '../../store/types';
 import { navOpts } from '../../navigation/common';
 import theme from '../../theme';
 

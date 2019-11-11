@@ -8,7 +8,7 @@ type TAction =
 const initialState: ISettingsState = {
 	articlePictureOnLeft: false,
 };
-const settingsReducer = (state = initialState, action: any): ISettingsState => {
+const settingsReducer = (state = initialState, action: TAction): ISettingsState => {
 	try {
 		switch (action.type) {
 			case 'SET_SETTINGS':

@@ -21,7 +21,15 @@ export type ISettingsState = Readonly<{
 	articlePictureOnLeft: boolean;
 }>;
 
+export type ISecureState = Readonly<{
+	status: 'LOGGED_IN' | 'LOGGED_OUT';
+	refreshToken: string | null;
+	accessToken: string | null;
+	userID: string | null;
+}>;
+
 export interface IAppState {
 	articles: IArticlesState;
 	settings: ISettingsState;
+	secure: ISecureState;
 }

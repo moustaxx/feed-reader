@@ -5398,6 +5398,11 @@ redux-devtools-extension@^2.13.8:
   resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.8.tgz#37b982688626e5e4993ff87220c9bbb7cd2d96e1"
   integrity sha512-8qlpooP2QqPtZHQZRhx3x3OP5skEV1py/zUdMY28WNAocbafxdG2tRD1MWE7sp8obGMNYuLWanhhQ7EQvT1FBg==
 
+redux-persist-expo-securestore@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/redux-persist-expo-securestore/-/redux-persist-expo-securestore-2.0.0.tgz#990d8c007c39a9a624b6311d09952b6b221a548e"
+  integrity sha512-swD6sC6QCCHyKBV0hFQIBEiO8ph2Nc6Bs96hZ7Qq5iciO/Mk2T6ZDRR8e23jWDjGK5I8uCr4in7ZVb+RPbENQA==
+
 redux-persist@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-6.0.0.tgz#b4d2972f9859597c130d40d4b146fecdab51b3a8"

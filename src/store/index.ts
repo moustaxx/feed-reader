@@ -5,13 +5,16 @@ import { AsyncStorage } from 'react-native';
 import { persistStore, persistReducer } from 'redux-persist';
 
 import articlesReducer from './articles/articles.reducer';
+import settingsReducer from './settings/settings.reducer';
 
 export const rootReducer = combineReducers({
 	articles: articlesReducer,
+	settings: settingsReducer,
 });
 
 const persistedReducer = persistReducer({
 	storage: AsyncStorage,
+	whitelist: ['settings'],
 	key: 'root',
 }, rootReducer);
 

@@ -6,6 +6,11 @@ export type IArticlesState = Readonly<{
 	articles: ReadonlyArray<IArticle>;
 }>;
 
+export type ISettingsState = Readonly<{
+	articlePictureOnLeft: boolean;
+}>;
+
 export interface IAppState {
 	articles: IArticlesState;
+	settings: ISettingsState;
 }

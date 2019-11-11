@@ -11,7 +11,7 @@ import markAllAsRead from '../../API/markAllAsRead';
 import ArticleItem from '../../components/ArticleItem/ArticleItem';
 import { navOpts } from '../../navigation/common';
 import theme from '../../theme';
-import store from '../../store';
+import { store } from '../../store';
 import { IAppState } from '../../store/types';
 import { articlesFetchData } from '../../store/articles/articles.actions';
 

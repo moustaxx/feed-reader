@@ -6,8 +6,7 @@ import { format } from 'timeago.js';
 
 import { fetchJSON } from '../../utils/myFetch';
 import { IGetArticles } from '../../API/useGetArticles';
-import { IArticle } from '../../components/ArticleItem/ArticleItem';
-import { IAppState } from '../types';
+import { IAppState, IArticle } from '../types';
 
 export const articlesHasErrored = (error: string) => {
 	return {
@@ -36,20 +35,23 @@ export const articlesFetchDataSuccess = (articles: IArticle[]) => {
 	} as const;
 };
 
+const userID = '6ba8f72a-ef3b-4215-bbf7-e672b7bc7fd6';
+
 export const articlesFetchData = (): ThunkAction<void, IAppState, null, Action<string>> => {
 	return async (dispatch: Dispatch) => {
 		dispatch(articlesIsLoading(true));
 		try {
 			const reqURL = withQuery('/v3/streams/contents/', {
-				streamId: encodeURI('feed/http://www.independent.co.uk/news/rss'),
+				streamId: encodeURI(`user/${userID}/category/global.all`),
 				count: 20,
-				unreadOnly: true,
+				unreadOnly: false,
 				ranked: 'newest',
 			});
 
 			const data = await fetchJSON<IGetArticles>(reqURL);
 			const articles = data.items.map((_article) => {
 				const { content } = _article.summary || _article.content || {} as any;
+				console.log('_article.thumbnail:', _article.thumbnail);
 				return {
 					id: _article.id,
 					title: _article.title,

@@ -2,38 +2,26 @@ import React from 'react';
 import { View } from 'react-native';
 import { Switch, Subheading, Title, Snackbar, Button } from 'react-native-paper';
 import { ScrollView } from 'react-navigation';
+import { useSelector, useDispatch } from 'react-redux';
 
 import settingsStyles from './SettingsScreen.style';
-import { SettingsContext, ISettings } from '../../utils/useSettings';
 import { AuthContext } from '../../contexts/AuthContext';
 import logout from '../../API/logout';
+import { IAppState, ISettingsState } from '../../store/types';
+import { setSettings, resetSettings } from '../../store/settings/settings.actions';
 
 const SettingsScreen = () => {
 	const mounted = React.useRef(true);
-	const [settings, setSettings] = React.useContext(SettingsContext);
 	const [, setAuthData] = React.useContext(AuthContext);
-
 	const [snackBarData, setSnackbarData] = React.useState({ visibility: false, content: '' });
-	const [optimistic, setOptimistic] = React.useState(settings);
 
-	const changeOptimistic = (newOptimistic: Partial<ISettings>) => (
-		setOptimistic({ ...optimistic, ...newOptimistic })
-	);
+	const dispatch = useDispatch();
+	const settings = useSelector((state: IAppState) => state.settings);
 
-	const saveSettings = React.useCallback(() => {
-		setSettings(optimistic);
-		setSnackbarData({ visibility: true, content: 'Settings saved.' });
-	}, [optimistic, setSettings]);
-
-	React.useEffect(() => { // Saves settings
-		return () => saveSettings();
-	}, [saveSettings, optimistic]);
-
-	React.useEffect(() => {
-		return () => {
-			mounted.current = false;
-		};
-	}, []);
+	const saveSettings = (newSettings: Partial<ISettingsState>) => {
+		dispatch(setSettings(newSettings));
+		if (mounted.current) setSnackbarData({ visibility: true, content: 'Settings saved.' });
+	};
 
 	const handleLogout = async () => {
 		await logout().catch((err) => {
@@ -43,6 +31,10 @@ const SettingsScreen = () => {
 		setAuthData({ userID: null, status: 'LOGGED_OUT' });
 	};
 
+	React.useEffect(() => {
+		return () => { mounted.current = false; }; // Set mounted as false on unmount
+	}, []);
+
 	return (
 		<View style={settingsStyles.root}>
 			<ScrollView>
@@ -50,9 +42,9 @@ const SettingsScreen = () => {
 				<View style={settingsStyles.option}>
 					<Subheading>Picture on left</Subheading>
 					<Switch
-						value={optimistic.articlePictureOnLeft}
-						onValueChange={() => changeOptimistic({
-							articlePictureOnLeft: !optimistic.articlePictureOnLeft,
+						value={settings.articlePictureOnLeft}
+						onValueChange={() => saveSettings({
+							articlePictureOnLeft: !settings.articlePictureOnLeft,
 						})}
 					/>
 				</View>
@@ -62,6 +54,14 @@ const SettingsScreen = () => {
 						children="Log out"
 						mode="contained"
 						onPress={handleLogout}
+					/>
+				</View>
+				<View style={settingsStyles.option}>
+					<Button
+						compact
+						children="Reset settings"
+						mode="contained"
+						onPress={() => dispatch(resetSettings())}
 					/>
 				</View>
 			</ScrollView>

@@ -1,4 +1,15 @@
-import { IArticle } from '../components/ArticleItem/ArticleItem';
+export interface IArticle {
+	id: string;
+	title?: string;
+	content: string;
+	unread: boolean;
+	thumbnail?: string;
+	imageURL?: string;
+	targetURL?: string;
+	sourceName: string;
+	engagement: number;
+	crawled: string;
+}
 
 export type IArticlesState = Readonly<{
 	error: string | null;

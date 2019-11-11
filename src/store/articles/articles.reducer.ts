@@ -1,24 +1,18 @@
 import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess } from './articles.actions';
-import { IArticle } from '../../components/ArticleItem/ArticleItem';
+import { IArticlesState } from '../types';
 
 type TAction =
 	| ReturnType<typeof articlesHasErrored>
 	| ReturnType<typeof articlesIsLoading>
 	| ReturnType<typeof articlesFetchDataSuccess>;
 
-export type IState = Readonly<{
-	error: string | null;
-	isLoading: boolean;
-	articles: ReadonlyArray<IArticle>;
-}>;
-
-const initialState: IState = {
+const initialState: IArticlesState = {
 	error: null,
 	isLoading: false,
 	articles: [],
 };
 
-const articlesReducer = (state = initialState, action: TAction): IState => {
+const articlesReducer = (state = initialState, action: TAction): IArticlesState => {
 	try {
 		switch (action.type) {
 			case 'ARTICLES_HAS_ERRORED':
@@ -31,7 +25,7 @@ const articlesReducer = (state = initialState, action: TAction): IState => {
 				return {
 					...state,
 					articles: [
-						...state.articles,
+						// ...state.articles,
 						...action.payload.articles,
 					],
 				};

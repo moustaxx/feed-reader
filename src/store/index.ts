@@ -4,12 +4,12 @@ import thunk from 'redux-thunk';
 
 import articlesReducer from './articles/articles.reducer';
 
-const reducers = combineReducers({
-	reducers: articlesReducer,
+export const rootReducer = combineReducers({
+	articles: articlesReducer,
 });
 
 const store = createStore(
-	reducers,
+	rootReducer,
 	composeWithDevTools(
 		applyMiddleware(thunk),
 	),

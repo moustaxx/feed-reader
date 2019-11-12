@@ -25,6 +25,7 @@ module.exports = {
 		'@typescript-eslint/indent': ['warn', 'tab', { SwitchCase: 1 }],
 		'@typescript-eslint/interface-name-prefix': ['error', 'always'],
 		'arrow-body-style': 0,
+		'import/no-cycle': [2, { maxDepth: 1 }],
 		'linebreak-style': ['warn', 'windows'],
 		'no-alert': 0,
 		'no-console': 0,

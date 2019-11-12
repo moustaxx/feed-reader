@@ -2,10 +2,11 @@ import React from 'react';
 import { Text, Paragraph } from 'react-native-paper';
 import { View } from 'react-native';
 
-import useUserProfile from '../../API/getUserProfile';
+import useFetch from '../../utils/useFetch';
+import { IProfile } from '../../API/getUserProfile';
 
 const ProfileScreen = () => {
-	const { data, loading, error } = useUserProfile();
+	const { data, loading, error } = useFetch<IProfile>('/v3/profile');
 
 	if (error) {
 		return (

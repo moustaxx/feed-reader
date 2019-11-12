@@ -1,9 +1,5 @@
 import withQuery from 'with-query';
 
-import { CLIENT_ID, CLIENT_SECRET, BASE_URL } from '../../config';
-import { store } from '../store';
-import { setAuthData } from '../store/secure/secure.actions';
-
 interface IInput {
 	/** The refresh token returned in the previous code. */
 	refresh_token: string | null;
@@ -29,22 +25,26 @@ interface IResponse {
 	plan: 'standard' | 'pro' | 'business';
 }
 
-const refreshAccessToken = async () => {
-	const { refreshToken } = store.getState().secure;
+interface IAppConfig {
+	BASE_URL: string;
+	CLIENT_ID: string;
+	CLIENT_SECRET: string;
+}
+
+const refreshAccessToken = async (appConfig: IAppConfig, refreshToken: string) => {
 	const getTokenUrl = withQuery<IInput>('/v3/auth/token', {
 		refresh_token: refreshToken,
-		client_id: CLIENT_ID,
-		client_secret: CLIENT_SECRET,
+		client_id: appConfig.CLIENT_ID,
+		client_secret: appConfig.CLIENT_SECRET,
 		grant_type: 'refresh_token',
 	});
-	const res = await fetch(BASE_URL + getTokenUrl, {
+	const res = await fetch(appConfig.BASE_URL + getTokenUrl, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 	});
 	const data: IResponse = await res.json();
-	store.dispatch(setAuthData({ accessToken: data.access_token }));
 	return data;
 };
 

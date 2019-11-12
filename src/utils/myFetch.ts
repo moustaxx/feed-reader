@@ -1,6 +1,7 @@
-import { BASE_URL } from '../../config';
+import { CLIENT_ID, CLIENT_SECRET, BASE_URL } from '../../config';
 import refreshAccessToken from '../API/refreshAccessToken';
 import { store } from '../store';
+import { setAuthData } from '../store/secure/secure.actions';
 
 export interface IFeedlyError {
 	errorCode: number;
@@ -33,7 +34,16 @@ export async function fetchRes(url: string, options: RequestInit = {}): Promise<
 
 	return makeRequestFetch(url, mergedOptions).catch(async (error) => {
 		if (error.message.includes('Feedly API Error 401')) {
-			await refreshAccessToken();
+			const { refreshToken } = store.getState().secure;
+			if (!refreshToken) throw Error('RefreshToken must be specified!');
+
+			const data = await refreshAccessToken({
+				CLIENT_ID,
+				CLIENT_SECRET,
+				BASE_URL,
+			}, refreshToken);
+
+			store.dispatch(setAuthData({ accessToken: data.access_token }));
 			return makeRequestFetch(url, options);
 		}
 		throw error;

@@ -8,6 +8,7 @@ import settingsStyles from './SettingsScreen.style';
 import logout from '../../API/logout';
 import { IAppState, ISettingsState } from '../../store/types';
 import { setSettings, resetSettings } from '../../store/settings/settings.actions';
+import { resetSecureStore } from '../../store/secure/secure.actions';
 
 const SettingsScreen = () => {
 	const mounted = React.useRef(true);
@@ -26,6 +27,7 @@ const SettingsScreen = () => {
 			console.warn('Log out error!', err);
 			if (mounted.current) setSnackbarData({ visibility: true, content: 'Log out error!' });
 		});
+		dispatch(resetSecureStore());
 	};
 
 	React.useEffect(() => {

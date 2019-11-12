@@ -1,6 +1,6 @@
-import useFetch from '../utils/useFetch';
+import { fetchJSON } from '../utils/myFetch';
 
-interface IProfile {
+export interface IProfile {
 	/** the unique, immutable user id. */
 	id: string;
 	/** the email address extracted from the OAuth profile.
@@ -62,8 +62,6 @@ interface IProfile {
 	/* Optional boolean true if the user has activated the Pocket integration. */
 }
 
-const useUserProfile = () => {
-	return useFetch<IProfile>('/v3/profile');
-};
+const getUserProfile = () => fetchJSON<IProfile>('/v3/profile');
 
-export default useUserProfile;
+export default getUserProfile;

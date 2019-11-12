@@ -1,6 +1,5 @@
-import { AsyncStorage } from 'react-native';
-
 import { fetchRes } from '../utils/myFetch';
+import { store } from '../store';
 
 interface IInput {
 	action: string;
@@ -11,10 +10,7 @@ interface IInput {
 }
 
 const markAllAsRead = async () => {
-	const userID = await AsyncStorage.getItem('userID').catch((err) => {
-		console.warn('Can not get userID!');
-		throw Error(err);
-	});
+	const { userID } = store.getState().secure;
 	await fetchRes('/v3/markers', {
 		method: 'POST',
 		headers: {

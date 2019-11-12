@@ -1,12 +1,10 @@
 import { ThunkAction } from 'redux-thunk';
 import { Action } from 'redux';
-import withQuery from 'with-query';
 import innertext from 'innertext';
 import { format } from 'timeago.js';
 
-import { fetchJSON } from '../../utils/myFetch';
-import { IGetArticles } from '../../API/useGetArticles';
 import { IAppState, IArticle } from '../types';
+import getArticles from '../../API/getArticles';
 
 export const articlesHasErrored = (error: string) => {
 	return {
@@ -40,14 +38,14 @@ export const articlesFetchData = (): ThunkAction<void, IAppState, null, Action<s
 		dispatch(articlesIsLoading(true));
 		try {
 			const { userID } = getState().secure;
-			const reqURL = withQuery('/v3/streams/contents/', {
+
+			const data = await getArticles({
 				streamId: encodeURI(`user/${userID}/category/global.all`),
 				count: 20,
 				unreadOnly: false,
 				ranked: 'newest',
 			});
 
-			const data = await fetchJSON<IGetArticles>(reqURL);
 			const articles = data.items.map((_article) => {
 				const { content } = _article.summary || _article.content || {} as any;
 				return {

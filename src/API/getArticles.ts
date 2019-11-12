@@ -1,7 +1,5 @@
 import withQuery from 'with-query';
-
-import useFetch from '../utils/useFetch';
-import { store } from '../store';
+import { fetchJSON } from '../utils/myFetch';
 
 export interface IGetArticlesItem {
 	/** The unique, immutable ID for this particular article. */
@@ -145,7 +143,7 @@ export interface IGetArticles {
 	items: IGetArticlesItem[];
 }
 
-interface IInput {
+export interface IGetArticlesOptions {
 	streamId: string;
 	/** Optional integer number of entries to return.default is 20.
 	 * max is 1, 000 for feeds and categories, 500 for tags. */
@@ -163,15 +161,11 @@ interface IInput {
 	continuation?: string;
 }
 
-const useGetArticles = () => {
-	const { userID } = store.getState().secure;
-	const reqURL = withQuery<IInput>('/v3/streams/contents/', {
-		streamId: encodeURI(`user/${userID}/category/global.all`),
-		count: 20,
-		unreadOnly: true,
-		ranked: 'newest',
-	});
-	return useFetch<IGetArticles>(reqURL);
+const getArticles = async (options: IGetArticlesOptions) => {
+	const reqURL = withQuery('/v3/streams/contents/', options);
+
+	const data = await fetchJSON<IGetArticles>(reqURL);
+	return data;
 };
 
-export default useGetArticles;
+export default getArticles;

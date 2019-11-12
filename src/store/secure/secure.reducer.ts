@@ -1,9 +1,9 @@
 import { ISecureState } from '../types';
-import { setLoginStatus, resetSecureData } from './secure.actions';
+import { setAuthData, resetSecureStore } from './secure.actions';
 
 type TAction =
-	| ReturnType<typeof setLoginStatus>
-	| ReturnType<typeof resetSecureData>;
+	| ReturnType<typeof setAuthData>
+	| ReturnType<typeof resetSecureStore>;
 
 const initialState: ISecureState = {
 	status: 'LOGGED_OUT',
@@ -20,7 +20,7 @@ const secureReducer = (state = initialState, action: TAction): ISecureState => {
 					...state,
 					...action.payload.data,
 				};
-			case 'RESET_SECURE_DATA':
+			case 'RESET_SECURE_STORE':
 				return {
 					...initialState,
 				};

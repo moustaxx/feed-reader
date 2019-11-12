@@ -1,18 +1,12 @@
-import * as SecureStore from 'expo-secure-store';
-
 import { BASE_URL } from '../../config';
 import refreshAccessToken from '../API/refreshAccessToken';
+import { store } from '../store';
 
 export interface IFeedlyError {
 	errorCode: number;
 	errorMessage?: string;
 	errorId?: string;
 }
-
-export const getAccessToken = async () => {
-	const token = await SecureStore.getItemAsync('accessToken');
-	return token;
-};
 
 const throwErr = (status: number) => {
 	throw Error(`Error ${status}: Response is not ok.`);
@@ -27,7 +21,8 @@ export async function makeRequestFetch(url: string, options: RequestInit): Promi
 }
 
 export async function fetchRes(url: string, options: RequestInit = {}): Promise<Response> {
-	const accessToken = await getAccessToken();
+	const { accessToken } = store.getState().secure;
+
 	const mergedOptions: RequestInit = {
 		...options,
 		headers: {

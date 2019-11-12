@@ -1,16 +1,14 @@
-/* eslint-disable @typescript-eslint/camelcase */
-
 import React from 'react';
 import withQuery from 'with-query';
-import { View, WebView, AsyncStorage } from 'react-native';
+import { View, WebView } from 'react-native';
 import { Text } from 'react-native-paper';
-import * as SecureStore from 'expo-secure-store';
 import URLParse from 'url-parse';
+import { useDispatch } from 'react-redux';
 
 import { REDIRECT_URI, CLIENT_ID, BASE_URL } from '../../../config';
 import loginScreenStyles from './LoginScreen.style';
-import { AuthContext } from '../../contexts/AuthContext';
 import getTokens from '../../API/getTokens';
+import { setAuthData } from '../../store/secure/secure.actions';
 
 interface IGetAuthCodeInput {
 	/** Indicates the type of token requested.
@@ -52,18 +50,10 @@ interface IParsedQS extends URLParse {
 	};
 }
 
-const saveData = async (accessToken: string, refreshToken: string, userID: string) => {
-	await Promise.all([
-		SecureStore.setItemAsync('accessToken', accessToken),
-		SecureStore.setItemAsync('refreshToken', refreshToken),
-		AsyncStorage.setItem('userID', userID),
-	]).catch((err) => console.warn('UserID or tokens can not be saved in Storage!', err));
-};
-
 const LoginScreen = () => {
 	const [authError, setAuthError] = React.useState<string>();
-	const [, setAuthData] = React.useContext(AuthContext);
 	const mounted = React.useRef(true);
+	const dispatch = useDispatch();
 	React.useEffect(() => {
 		return () => {
 			mounted.current = false;
@@ -82,8 +72,12 @@ const LoginScreen = () => {
 			console.warn(err);
 		});
 		if (!tokens) return;
-		await saveData(tokens.access_token, tokens.refresh_token, tokens.id);
-		if (mounted.current) setAuthData({ status: 'LOGGED_IN', userID: tokens.id });
+		dispatch(setAuthData({
+			status: 'LOGGED_IN',
+			refreshToken: tokens.refresh_token,
+			accessToken: tokens.access_token,
+			userID: tokens.id,
+		}));
 	};
 
 	return (

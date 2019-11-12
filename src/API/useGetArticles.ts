@@ -1,8 +1,7 @@
-import React from 'react';
 import withQuery from 'with-query';
 
 import useFetch from '../utils/useFetch';
-import { AuthContext } from '../contexts/AuthContext';
+import { store } from '../store';
 
 export interface IGetArticlesItem {
 	/** The unique, immutable ID for this particular article. */
@@ -165,7 +164,7 @@ interface IInput {
 }
 
 const useGetArticles = () => {
-	const [{ userID }] = React.useContext(AuthContext);
+	const { userID } = store.getState().secure;
 	const reqURL = withQuery<IInput>('/v3/streams/contents/', {
 		streamId: encodeURI(`user/${userID}/category/global.all`),
 		count: 20,

@@ -1,7 +1,8 @@
 import withQuery from 'with-query';
-import * as SecureStore from 'expo-secure-store';
 
 import { CLIENT_ID, CLIENT_SECRET, BASE_URL } from '../../config';
+import { store } from '../store';
+import { setAuthData } from '../store/secure/secure.actions';
 
 interface IInput {
 	/** The refresh token returned in the previous code. */
@@ -29,7 +30,7 @@ interface IResponse {
 }
 
 const refreshAccessToken = async () => {
-	const refreshToken = await SecureStore.getItemAsync('refreshToken');
+	const { refreshToken } = store.getState().secure;
 	const getTokenUrl = withQuery<IInput>('/v3/auth/token', {
 		refresh_token: refreshToken,
 		client_id: CLIENT_ID,
@@ -43,7 +44,7 @@ const refreshAccessToken = async () => {
 		},
 	});
 	const data: IResponse = await res.json();
-	await SecureStore.setItemAsync('accessToken', data.access_token);
+	store.dispatch(setAuthData({ accessToken: data.access_token }));
 	return data;
 };
 

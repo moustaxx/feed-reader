@@ -1,13 +1,10 @@
-import { AsyncStorage } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
-
 import { fetchRes } from '../utils/myFetch';
+import { store } from '../store';
+import { resetSecureStore } from '../store/secure/secure.actions';
 
-const logout = () => Promise.all([
-	fetchRes('/v3/auth/logout', { method: 'POST' }),
-	AsyncStorage.removeItem('userID'),
-	SecureStore.deleteItemAsync('accessToken'),
-	SecureStore.deleteItemAsync('refreshToken'),
-]);
+const logout = async () => {
+	await fetchRes('/v3/auth/logout', { method: 'POST' });
+	store.dispatch(resetSecureStore());
+};
 
 export default logout;

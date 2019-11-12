@@ -5,14 +5,12 @@ import { ScrollView } from 'react-navigation';
 import { useSelector, useDispatch } from 'react-redux';
 
 import settingsStyles from './SettingsScreen.style';
-import { AuthContext } from '../../contexts/AuthContext';
 import logout from '../../API/logout';
 import { IAppState, ISettingsState } from '../../store/types';
 import { setSettings, resetSettings } from '../../store/settings/settings.actions';
 
 const SettingsScreen = () => {
 	const mounted = React.useRef(true);
-	const [, setAuthData] = React.useContext(AuthContext);
 	const [snackBarData, setSnackbarData] = React.useState({ visibility: false, content: '' });
 
 	const dispatch = useDispatch();
@@ -28,7 +26,6 @@ const SettingsScreen = () => {
 			console.warn('Log out error!', err);
 			if (mounted.current) setSnackbarData({ visibility: true, content: 'Log out error!' });
 		});
-		setAuthData({ userID: null, status: 'LOGGED_OUT' });
 	};
 
 	React.useEffect(() => {

@@ -1,5 +1,5 @@
 import { ThunkAction } from 'redux-thunk';
-import { Dispatch, Action } from 'redux';
+import { Action } from 'redux';
 import withQuery from 'with-query';
 import innertext from 'innertext';
 import { format } from 'timeago.js';
@@ -35,12 +35,11 @@ export const articlesFetchDataSuccess = (articles: IArticle[]) => {
 	} as const;
 };
 
-const userID = '6ba8f72a-ef3b-4215-bbf7-e672b7bc7fd6';
-
 export const articlesFetchData = (): ThunkAction<void, IAppState, null, Action<string>> => {
-	return async (dispatch: Dispatch) => {
+	return async (dispatch, getState) => {
 		dispatch(articlesIsLoading(true));
 		try {
+			const { userID } = getState().secure;
 			const reqURL = withQuery('/v3/streams/contents/', {
 				streamId: encodeURI(`user/${userID}/category/global.all`),
 				count: 20,
@@ -51,7 +50,6 @@ export const articlesFetchData = (): ThunkAction<void, IAppState, null, Action<s
 			const data = await fetchJSON<IGetArticles>(reqURL);
 			const articles = data.items.map((_article) => {
 				const { content } = _article.summary || _article.content || {} as any;
-				console.log('_article.thumbnail:', _article.thumbnail);
 				return {
 					id: _article.id,
 					title: _article.title,

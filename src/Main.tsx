@@ -2,35 +2,18 @@ import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { Provider as ReduxProvider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import { AsyncStorage } from 'react-native';
-import { AppLoading } from 'expo';
 
 import './registerLocale';
 import theme from './theme';
 import { store, persistor } from './store';
 import NavigationWrapper from './navigation';
-import { AuthContext, IAuthStatus } from './contexts/AuthContext';
 
 const Main = () => {
-	const [authState, setAuthState] = React.useState<null | IAuthStatus>(null);
-
-	React.useEffect(() => {
-		const getUserID = async () => {
-			const userID = await AsyncStorage.getItem('userID');
-			const status = userID ? 'LOGGED_IN' : 'LOGGED_OUT';
-			setAuthState({ userID, status });
-		};
-		getUserID();
-	}, []);
-
-	if (!authState) return <AppLoading />;
 	return (
 		<ReduxProvider store={store}>
 			<PersistGate loading={null} persistor={persistor}>
 				<PaperProvider theme={theme}>
-					<AuthContext.Provider value={[authState, setAuthState]}>
-						<NavigationWrapper />
-					</AuthContext.Provider>
+					<NavigationWrapper />
 				</PaperProvider>
 			</PersistGate>
 		</ReduxProvider>

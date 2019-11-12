@@ -1,6 +1,6 @@
 import { ISecureState } from '../types';
 
-export const setLoginStatus = (data: Partial<ISecureState>) => {
+export const setAuthData = (data: Partial<ISecureState>) => {
 	return {
 		type: 'SET_AUTH_DATA',
 		payload: {
@@ -9,8 +9,8 @@ export const setLoginStatus = (data: Partial<ISecureState>) => {
 	} as const;
 };
 
-export const resetSecureData = () => {
+export const resetSecureStore = () => {
 	return {
-		type: 'RESET_SECURE_DATA',
+		type: 'RESET_SECURE_STORE',
 	} as const;
 };

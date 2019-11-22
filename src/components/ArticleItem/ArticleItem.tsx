@@ -25,9 +25,9 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 	return (
 		<TouchableRipple onPress={goToArticle}>
 			<View style={articleStyles.root}>
-				{article.thumbnail && articlePictureOnLeft && (
+				{(article.thumbnail || article.imageURL) && articlePictureOnLeft && (
 					<Image
-						source={{ uri: article.thumbnail }}
+						source={{ uri: article.thumbnail || article.imageURL }}
 						style={articleStyles.imageLeft}
 					/>
 				)}
@@ -51,9 +51,9 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 						<Caption>{article.engagement} | {article.sourceName} | {article.crawled}</Caption>
 					</View>
 				</View>
-				{article.thumbnail && !articlePictureOnLeft && (
+				{(article.thumbnail || article.imageURL) && !articlePictureOnLeft && (
 					<Image
-						source={{ uri: article.thumbnail }}
+						source={{ uri: article.thumbnail || article.imageURL }}
 						style={articleStyles.imageRight}
 					/>
 				)}

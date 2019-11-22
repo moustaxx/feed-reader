@@ -5,6 +5,7 @@ import { IGetArticles, IGetArticlesOptions } from './types/getArticles';
 import { IGetTokensRes, IGetTokensInput } from './types/getTokens';
 import { IProfile } from './types/getUserProfile';
 import { IRefreshAccessTokenInput, IRefreshAccessTokenResponse } from './types/refreshAccessToken';
+import { IGetOAuthLoginInput } from './types/getOAuthLogin';
 
 interface IOptions {
 	baseURL: string;
@@ -71,6 +72,7 @@ class Feedly {
 		return json;
 	}
 
+	/** This method is not API request */
 	public checkIfLoggedIn = () => {
 		if (this.tokens.accessToken && this.tokens.refreshToken) return true;
 		return false;
@@ -95,6 +97,11 @@ class Feedly {
 
 	public getUserProfile = () => this.feedlyFetchJSON<IProfile>('/v3/profile');
 
+	/**
+	 * Method that allows you to pass persisted auth data
+	 *
+	 * This method is not API request
+	 */
 	public restoreAuthData = (authData: IAuthData) => {
 		const { userID, accessToken, refreshToken } = authData;
 		this.userID = userID;
@@ -102,6 +109,20 @@ class Feedly {
 			accessToken,
 			refreshToken,
 		};
+	};
+
+	/**
+	 * Returns URL to feedly OAuth login site
+	 *
+	 * This method is not API request
+	 */
+	public getOAuthLoginURL = () => {
+		return withQuery<IGetOAuthLoginInput>(`${this.options.baseURL}/v3/auth/auth`, {
+			response_type: 'code',
+			client_id: this.options.clientID,
+			redirect_uri: encodeURI(this.options.redirectURI),
+			scope: encodeURI('https://cloud.feedly.com/subscriptions'),
+		});
 	};
 
 	public logout = () => this.feedlyFetch('/v3/auth/logout', { method: 'POST' });

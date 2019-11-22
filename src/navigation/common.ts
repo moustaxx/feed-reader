@@ -28,13 +28,13 @@ export const navOpts = (
 			icon: 'arrow-left',
 			color: theme.colors.headerElements,
 			style: { marginHorizontal: 16 },
-			onPress: () => navigation.goBack(),
+			onPress: () => void navigation.goBack(),
 		})
 		: () => React.createElement(IconButton, {
 			icon: 'menu',
 			color: theme.colors.headerElements,
 			style: { marginHorizontal: 16 },
-			onPress: () => navigation.toggleDrawer(),
+			onPress: () => void navigation.toggleDrawer(),
 		}),
 	...headerStyles,
 });

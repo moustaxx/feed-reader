@@ -1,5 +1,3 @@
-import { fetchJSON } from '../utils/myFetch';
-
 export interface IProfile {
 	/** the unique, immutable user id. */
 	id: string;
@@ -61,7 +59,3 @@ export interface IProfile {
 	isPocketConnected?: boolean;
 	/* Optional boolean true if the user has activated the Pocket integration. */
 }
-
-const getUserProfile = () => fetchJSON<IProfile>('/v3/profile');
-
-export default getUserProfile;

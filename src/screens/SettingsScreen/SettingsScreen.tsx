@@ -5,7 +5,7 @@ import { ScrollView } from 'react-navigation';
 import { useSelector, useDispatch } from 'react-redux';
 
 import settingsStyles from './SettingsScreen.style';
-import logout from '../../API/logout';
+import { makeRequest, feedly } from '../../utils/feedlyClient';
 import { IAppState, ISettingsState } from '../../store/types';
 import { setSettings, resetSettings } from '../../store/settings/settings.actions';
 import { resetSecureStore } from '../../store/secure/secure.actions';
@@ -23,10 +23,12 @@ const SettingsScreen = () => {
 	};
 
 	const handleLogout = async () => {
-		await logout().catch((err) => {
-			console.warn('Log out error!', err);
+		try {
+			await makeRequest(() => feedly.logout());
+		} catch (error) {
+			console.warn('Log out error!', error);
 			if (mounted.current) setSnackbarData({ visibility: true, content: 'Log out error!' });
-		});
+		}
 		dispatch(resetSecureStore());
 	};
 

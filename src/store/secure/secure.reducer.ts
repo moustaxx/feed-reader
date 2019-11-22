@@ -6,7 +6,6 @@ type TAction =
 	| ReturnType<typeof resetSecureStore>;
 
 const initialState: ISecureState = {
-	status: 'LOGGED_OUT',
 	refreshToken: null,
 	accessToken: null,
 	userID: null,

@@ -2,11 +2,10 @@ import React from 'react';
 import { Text, Paragraph } from 'react-native-paper';
 import { View } from 'react-native';
 
-import useFetch from '../../utils/useFetch';
-import { IProfile } from '../../API/getUserProfile';
+import { useAPIRequest, feedly } from '../../utils/feedlyClient';
 
 const ProfileScreen = () => {
-	const { data, loading, error } = useFetch<IProfile>('/v3/profile');
+	const { data, loading, error } = useAPIRequest(() => feedly.getUserProfile());
 
 	if (error) {
 		return (

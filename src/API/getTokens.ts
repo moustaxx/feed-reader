@@ -1,8 +1,4 @@
-import withQuery from 'with-query';
-import { CLIENT_ID, CLIENT_SECRET, REDIRECT_URI } from '../../config';
-import { fetchJSON } from '../utils/myFetch';
-
-interface IGetTokenRes {
+export interface IGetTokensRes {
 	/** The feedly user id */
 	id: string;
 	/** A token that may be used to access APIs. Access tokens are have an expiration */
@@ -20,7 +16,7 @@ interface IGetTokenRes {
 	/** The state that was passed in */
 	state?: string;
 }
-interface IGetTokenInput {
+export interface IGetTokensInput {
 	/** The code returned on successful authorization */
 	code: string;
 	/** The clientId obtained during application registration */
@@ -35,18 +31,3 @@ interface IGetTokenInput {
 	/** As defined in the OAuth2 specification, this field must be set to `authorization_code` */
 	grant_type: string;
 }
-
-/** Get tokens using code from received URL */
-const getTokens = async (code: string) => {
-	const getTokenUrl = withQuery<IGetTokenInput>('/v3/auth/token', {
-		code,
-		client_id: CLIENT_ID,
-		client_secret: CLIENT_SECRET,
-		redirect_uri: encodeURI(REDIRECT_URI),
-		grant_type: 'authorization_code',
-	});
-	const data = await fetchJSON<IGetTokenRes>(getTokenUrl, { method: 'POST' });
-	return data;
-};
-
-export default getTokens;

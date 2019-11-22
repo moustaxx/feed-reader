@@ -1,5 +1,26 @@
 import React from 'react';
-import { fetchJSON } from './myFetch';
+
+import Feedly from '../API/Feedly';
+import { REDIRECT_URI, CLIENT_ID, CLIENT_SECRET, BASE_URL } from '../../config';
+
+export const feedly = new Feedly({
+	baseURL: BASE_URL,
+	clientID: CLIENT_ID,
+	clientSecret: CLIENT_SECRET,
+	redirectURI: REDIRECT_URI,
+});
+
+export async function makeRequest<T>(apiMethod: () => T) {
+	try {
+		return apiMethod();
+	} catch (error) {
+		if (error.message.includes('Feedly API Error 401')) {
+			await feedly.refreshAccessToken();
+			return apiMethod();
+		}
+		throw Error(error);
+	}
+}
 
 interface IState<T> {
 	data: T | null;
@@ -8,7 +29,7 @@ interface IState<T> {
 	refetch: () => void;
 }
 
-function useFetch<T extends {}>(url: string, options: RequestInit = {}): IState<T> {
+export function useAPIRequest<T>(apiMethod: () => Promise<T>): IState<T> {
 	const [state, setState] = React.useState<IState<T>>({
 		data: null,
 		loading: false,
@@ -17,12 +38,12 @@ function useFetch<T extends {}>(url: string, options: RequestInit = {}): IState<
 	});
 
 	const handleFetch = React.useCallback(async () => {
-		setState(({ ...state, loading: true }));
+		setState((prevValue) => ({ ...prevValue, loading: true }));
 		try {
-			const json = await fetchJSON<T>(url, options);
+			const data = await makeRequest(apiMethod);
 			setState({
 				...state,
-				data: json,
+				data,
 				loading: false,
 				error: null,
 			});
@@ -41,5 +62,3 @@ function useFetch<T extends {}>(url: string, options: RequestInit = {}): IState<
 	}, [handleFetch]);
 	return state;
 }
-
-export default useFetch;

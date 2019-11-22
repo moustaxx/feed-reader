@@ -22,7 +22,6 @@ export type ISettingsState = Readonly<{
 }>;
 
 export type ISecureState = Readonly<{
-	status: 'LOGGED_IN' | 'LOGGED_OUT';
 	refreshToken: string | null;
 	accessToken: string | null;
 	userID: string | null;

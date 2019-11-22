@@ -1,6 +1,4 @@
-import withQuery from 'with-query';
-
-interface IInput {
+export interface IRefreshAccessTokenInput {
 	/** The refresh token returned in the previous code. */
 	refresh_token: string | null;
 	/** The clientId obtained during application registration. */
@@ -11,7 +9,7 @@ interface IInput {
 	grant_type: 'refresh_token';
 }
 
-interface IResponse {
+export interface IRefreshAccessTokenResponse {
 	/** The feedly user id */
 	id: string;
 	/** The new access token */
@@ -24,28 +22,3 @@ interface IResponse {
 	/** Indicated the user plan (standard, pro or business) */
 	plan: 'standard' | 'pro' | 'business';
 }
-
-interface IAppConfig {
-	BASE_URL: string;
-	CLIENT_ID: string;
-	CLIENT_SECRET: string;
-}
-
-const refreshAccessToken = async (appConfig: IAppConfig, refreshToken: string) => {
-	const getTokenUrl = withQuery<IInput>('/v3/auth/token', {
-		refresh_token: refreshToken,
-		client_id: appConfig.CLIENT_ID,
-		client_secret: appConfig.CLIENT_SECRET,
-		grant_type: 'refresh_token',
-	});
-	const res = await fetch(appConfig.BASE_URL + getTokenUrl, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	});
-	const data: IResponse = await res.json();
-	return data;
-};
-
-export default refreshAccessToken;

@@ -6,8 +6,8 @@ import { useNavigation } from 'react-navigation-hooks';
 import { useSelector } from 'react-redux';
 
 import articleStyles from './ArticleItem.style';
-import markOneAsRead from '../../API/markOneAsRead';
 import { IAppState, IArticle } from '../../store/types';
+import { makeRequest, feedly } from '../../utils/feedlyClient';
 
 export interface IArticleItemProps {
 	article: IArticle;
@@ -19,7 +19,7 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 
 	const goToArticle = () => {
 		navigate('ArticleScreen', { article });
-		markOneAsRead(article.id);
+		makeRequest(() => feedly.markOneAsRead(article.id));
 	};
 
 	return (

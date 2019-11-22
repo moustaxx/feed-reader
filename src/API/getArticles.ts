@@ -1,6 +1,3 @@
-import withQuery from 'with-query';
-import { fetchJSON } from '../utils/myFetch';
-
 export interface IGetArticlesItem {
 	/** The unique, immutable ID for this particular article. */
 	id: string;
@@ -160,12 +157,3 @@ export interface IGetArticlesOptions {
 	 * you can also pass a timestamp in ms, which will act as an “older than” limit. */
 	continuation?: string;
 }
-
-const getArticles = async (options: IGetArticlesOptions) => {
-	const reqURL = withQuery('/v3/streams/contents/', options);
-
-	const data = await fetchJSON<IGetArticles>(reqURL);
-	return data;
-};
-
-export default getArticles;

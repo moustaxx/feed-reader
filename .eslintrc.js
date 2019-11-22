@@ -32,6 +32,7 @@ module.exports = {
 		'no-param-reassign': ['error', { 'props': false }],
 		'no-tabs': 0,
 		'no-multiple-empty-lines': ['error', { max: 3, maxEOF: 1, maxBOF: 0 }],
+		'no-void': 0,
 		'object-curly-newline': ["error", { "consistent": true }],
 		'react/jsx-indent': ['error', 'tab'],
 		'react/jsx-indent-props': ['error', 'tab'],

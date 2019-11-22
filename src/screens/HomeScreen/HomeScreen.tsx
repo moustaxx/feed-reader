@@ -7,13 +7,13 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import homeScreenStyles from './HomeScreen.style';
 import articleScreenStyles from '../ArticleScreen/ArticleScreen.style';
-import markAllAsRead from '../../API/markAllAsRead';
 import ArticleItem from '../../components/ArticleItem/ArticleItem';
 import { navOpts } from '../../navigation/common';
 import theme from '../../theme';
 import { store } from '../../store';
 import { IAppState } from '../../store/types';
 import { articlesFetchData } from '../../store/articles/articles.actions';
+import { makeRequest, feedly } from '../../utils/feedlyClient';
 
 const HomeScreen = () => {
 	const dispatch = useDispatch();
@@ -76,7 +76,7 @@ HomeScreen.navigationOptions = ({ navigation }: NavigationStackScreenProps) => {
 					icon="check"
 					color={theme.colors.headerElements}
 					style={articleScreenStyles.navHeaderRight}
-					onPress={() => { markAllAsRead(); }}
+					onPress={() => void makeRequest(() => feedly.markAllAsRead())}
 				/>
 			</View>
 		),

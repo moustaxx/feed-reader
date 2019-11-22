@@ -7,8 +7,8 @@ import { useDispatch } from 'react-redux';
 
 import { REDIRECT_URI, CLIENT_ID, BASE_URL } from '../../../config';
 import loginScreenStyles from './LoginScreen.style';
-import getTokens from '../../API/getTokens';
 import { setAuthData } from '../../store/secure/secure.actions';
+import { makeRequest, feedly } from '../../utils/feedlyClient';
 
 interface IGetAuthCodeInput {
 	/** Indicates the type of token requested.
@@ -63,21 +63,28 @@ const LoginScreen = () => {
 	const handleAuth = async (url?: string) => {
 		if (!url) return;
 		const { query }: IParsedQS = URLParse(url, true);
-		if (!query.code) {
-			if (query.error) setAuthError(query.error);
+		const code = query?.code;
+		if (!code) {
+			if (query.error && mounted.current) setAuthError(query.error);
 			return;
 		}
-		const tokens = await getTokens(query.code).catch((err) => {
-			setAuthError('Can not get tokens!');
-			console.warn(err);
-		});
-		if (!tokens) return;
-		dispatch(setAuthData({
-			status: 'LOGGED_IN',
-			refreshToken: tokens.refresh_token,
-			accessToken: tokens.access_token,
-			userID: tokens.id,
-		}));
+		try {
+			const tokens = await makeRequest(() => feedly.getTokens(code));
+			if (!tokens) return;
+			await makeRequest(() => feedly.restoreAuthData({
+				userID: tokens.id,
+				accessToken: tokens.access_token,
+				refreshToken: tokens.refresh_token,
+			}));
+			dispatch(setAuthData({
+				refreshToken: tokens.refresh_token,
+				accessToken: tokens.access_token,
+				userID: tokens.id,
+			}));
+		} catch (error) {
+			console.error(error);
+			if (mounted.current) setAuthError('Can not get tokens!');
+		}
 	};
 
 	return (

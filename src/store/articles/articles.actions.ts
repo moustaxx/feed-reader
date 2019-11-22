@@ -4,7 +4,7 @@ import innertext from 'innertext';
 import { format } from 'timeago.js';
 
 import { IAppState, IArticle } from '../types';
-import getArticles from '../../API/getArticles';
+import { makeRequest, feedly } from '../../utils/feedlyClient';
 
 export const articlesHasErrored = (error: string) => {
 	return {
@@ -39,12 +39,12 @@ export const articlesFetchData = (): ThunkAction<void, IAppState, null, Action<s
 		try {
 			const { userID } = getState().secure;
 
-			const data = await getArticles({
+			const data = await makeRequest(() => feedly.getArticles({
 				streamId: encodeURI(`user/${userID}/category/global.all`),
 				count: 20,
 				unreadOnly: false,
 				ranked: 'newest',
-			});
+			}));
 
 			const articles = data.items.map((_article) => {
 				const { content } = _article.summary || _article.content || {} as any;

@@ -1,10 +1,10 @@
 import withQuery from 'with-query';
 
 import makeRequestFetch from './feedlyFetch';
-import { IGetArticles, IGetArticlesOptions } from './getArticles';
-import { IGetTokensRes, IGetTokensInput } from './getTokens';
-import { IProfile } from './getUserProfile';
-import { IRefreshAccessTokenInput, IRefreshAccessTokenResponse } from './refreshAccessToken';
+import { IGetArticles, IGetArticlesOptions } from './types/getArticles';
+import { IGetTokensRes, IGetTokensInput } from './types/getTokens';
+import { IProfile } from './types/getUserProfile';
+import { IRefreshAccessTokenInput, IRefreshAccessTokenResponse } from './types/refreshAccessToken';
 
 interface IOptions {
 	baseURL: string;

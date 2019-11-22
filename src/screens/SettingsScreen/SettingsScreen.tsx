@@ -19,17 +19,30 @@ const SettingsScreen = () => {
 
 	const saveSettings = (newSettings: Partial<ISettingsState>) => {
 		dispatch(setSettings(newSettings));
-		if (mounted.current) setSnackbarData({ visibility: true, content: 'Settings saved.' });
+		if (mounted.current) {
+			setSnackbarData({ visibility: true, content: 'Settings saved.' });
+		}
 	};
 
 	const handleLogout = async () => {
 		try {
 			await makeRequest(() => feedly.logout());
+			if (mounted.current) {
+				setSnackbarData({ visibility: true, content: 'You have been logged out.' });
+			}
 		} catch (error) {
 			console.warn('Log out error!', error);
-			if (mounted.current) setSnackbarData({ visibility: true, content: 'Log out error!' });
+			if (mounted.current) {
+				setSnackbarData({ visibility: true, content: 'Log out error!' });
+			}
 		}
 		dispatch(resetSecureStore());
+	};
+	const handleSettingsReset = () => {
+		dispatch(resetSettings());
+		if (mounted.current) {
+			setSnackbarData({ visibility: true, content: 'Settings have been reset.' });
+		}
 	};
 
 	React.useEffect(() => {
@@ -62,7 +75,7 @@ const SettingsScreen = () => {
 						compact
 						children="Reset settings"
 						mode="contained"
-						onPress={() => dispatch(resetSettings())}
+						onPress={handleSettingsReset}
 					/>
 				</View>
 			</ScrollView>

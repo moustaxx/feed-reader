@@ -33,6 +33,17 @@ export const articlesFetchDataSuccess = (articles: IArticle[]) => {
 	} as const;
 };
 
+export const markArticleAsRead = (articleID: string) => {
+	makeRequest(() => feedly.markOneAsRead(articleID));
+
+	return {
+		type: 'MARK_ARTICLE_AS_READ',
+		payload: {
+			articleID,
+		},
+	} as const;
+};
+
 export const articlesFetchData = (): ThunkAction<void, IAppState, null, Action<string>> => {
 	return async (dispatch, getState) => {
 		dispatch(articlesIsLoading(true));

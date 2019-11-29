@@ -1,10 +1,11 @@
-import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess } from './articles.actions';
+import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess, markArticleAsRead } from './articles.actions';
 import { IArticlesState } from '../types';
 
 type TAction =
 	| ReturnType<typeof articlesHasErrored>
 	| ReturnType<typeof articlesIsLoading>
-	| ReturnType<typeof articlesFetchDataSuccess>;
+	| ReturnType<typeof articlesFetchDataSuccess>
+	| ReturnType<typeof markArticleAsRead>;
 
 const initialState: IArticlesState = {
 	error: null,
@@ -29,6 +30,19 @@ const articlesReducer = (state = initialState, action: TAction): IArticlesState 
 						...action.payload.articles,
 					],
 				};
+			case 'MARK_ARTICLE_AS_READ': {
+				const articles = state.articles.map((article) => {
+					if (article.id !== action.payload.articleID) return article;
+					return {
+						...article,
+						unread: false,
+					};
+				});
+				return {
+					...state,
+					articles,
+				};
+			}
 			default:
 				return state;
 		}

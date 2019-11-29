@@ -3,11 +3,11 @@ import { View, Image } from 'react-native';
 import { Paragraph, Subheading, Caption, TouchableRipple } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from 'react-navigation-hooks';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import articleStyles from './ArticleItem.style';
 import { IAppState, IArticle } from '../../store/types';
-import { makeRequest, feedly } from '../../utils/feedlyClient';
+import { markArticleAsRead } from '../../store/articles/articles.actions';
 
 export interface IArticleItemProps {
 	article: IArticle;
@@ -16,10 +16,11 @@ export interface IArticleItemProps {
 const ArticleItem = ({ article }: IArticleItemProps) => {
 	const { navigate } = useNavigation();
 	const { articlePictureOnLeft } = useSelector((state: IAppState) => state.settings);
+	const dispatch = useDispatch();
 
 	const goToArticle = () => {
 		navigate('ArticleScreen', { article });
-		makeRequest(() => feedly.markOneAsRead(article.id));
+		dispatch(markArticleAsRead(article.id));
 	};
 
 	return (

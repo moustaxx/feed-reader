@@ -28,13 +28,22 @@ const SettingsStack = createStackNavigator({
 }, { initialRouteName: 'Settings' });
 
 const MyProfileStack = createStackNavigator({
-	ProfileScreen,
-}, { initialRouteName: 'ProfileScreen' });
+	MyProfile: {
+		screen: ProfileScreen,
+		navigationOptions: ({ navigation }: NavigationStackScreenProps) => {
+			const opts = navOpts(navigation);
+			return {
+				title: 'My profile',
+				...opts,
+			};
+		},
+	},
+}, { initialRouteName: 'MyProfile' });
 
 const AuthNavigator = createDrawerNavigator({
 	Home: HomeStack,
 	Settings: SettingsStack,
-	MyProfile: MyProfileStack,
+	'My Profile': MyProfileStack,
 }, { contentComponent: MenuDrawer });
 
 const AuthNavigationContainer = createAppContainer(AuthNavigator);

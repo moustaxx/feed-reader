@@ -10,13 +10,14 @@ export const feedly = new Feedly({
 	redirectURI: REDIRECT_URI,
 });
 
-export async function makeRequest<T>(apiMethod: () => T) {
+export async function makeRequest<T>(apiMethod: () => T, isRecurrency = false): Promise<T> {
 	try {
-		return apiMethod();
+		const data = await apiMethod();
+		return data;
 	} catch (error) {
-		if (error.message.includes('Feedly API Error 401')) {
+		if (!isRecurrency && error.message.includes('Feedly API Error 401')) {
 			await feedly.refreshAccessToken();
-			return apiMethod();
+			return makeRequest(apiMethod, true);
 		}
 		throw Error(error);
 	}

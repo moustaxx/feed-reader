@@ -153,19 +153,20 @@ class Feedly {
 		});
 	};
 
-	public refreshAccessToken = () => {
+	public refreshAccessToken = async () => {
 		const reqURL = withQuery<IRefreshAccessTokenInput>('/v3/auth/token', {
 			refresh_token: this.tokens.refreshToken,
 			client_id: this.options.clientID,
 			client_secret: this.options.clientSecret,
 			grant_type: 'refresh_token',
 		});
-		return this.feedlyFetchJSON<IRefreshAccessTokenResponse>(reqURL, {
+		const data = await this.feedlyFetchJSON<IRefreshAccessTokenResponse>(reqURL, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 			},
 		});
+		this.tokens = { ...this.tokens, accessToken: data.access_token };
 	};
 }
 

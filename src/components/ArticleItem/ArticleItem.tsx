@@ -3,11 +3,10 @@ import { View, Image } from 'react-native';
 import { Paragraph, Subheading, Caption, TouchableRipple } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from 'react-navigation-hooks';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import articleStyles from './ArticleItem.style';
 import { IAppState, IArticle } from '../../store/types';
-import { markArticleAsRead } from '../../store/articles/articles.actions';
 
 export interface IArticleItemProps {
 	article: IArticle;
@@ -16,12 +15,8 @@ export interface IArticleItemProps {
 const ArticleItem = ({ article }: IArticleItemProps) => {
 	const { navigate } = useNavigation();
 	const { articlePictureOnLeft } = useSelector((state: IAppState) => state.settings);
-	const dispatch = useDispatch();
 
-	const goToArticle = () => {
-		navigate('ArticleScreen', { article });
-		dispatch(markArticleAsRead(article.id));
-	};
+	const goToArticle = () => void navigate('ArticleScreen', { article });
 
 	return (
 		<TouchableRipple onPress={goToArticle}>

@@ -33,11 +33,9 @@ export const articlesFetchDataSuccess = (articles: IArticle[]) => {
 	} as const;
 };
 
-export const markArticleAsRead = (articleID: string) => {
-	makeRequest(() => feedly.markOneAsRead(articleID));
-
+export const switchArticleReadStatus = (articleID: string) => {
 	return {
-		type: 'MARK_ARTICLE_AS_READ',
+		type: 'SWITCH_ARTICLE_READ_STATUS',
 		payload: {
 			articleID,
 		},

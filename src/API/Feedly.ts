@@ -142,11 +142,12 @@ class Feedly {
 		});
 	};
 
-	public markOneAsRead = (entryID: string) => {
+	public setReadStatus = (entryID: string, hasBeenRead: boolean) => {
+		const action = hasBeenRead ? 'markAsRead' : 'keepUnread';
 		return this.feedlyFetch('/v3/markers', {
 			method: 'POST',
 			body: JSON.stringify({
-				action: 'markAsRead',
+				action,
 				type: 'entries',
 				entryIds: [entryID],
 			}),

@@ -4,18 +4,22 @@ import { Title, Paragraph, Caption, Button, IconButton } from 'react-native-pape
 import { withNavigation, ScrollView } from 'react-navigation';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
 
 import placeholderIMG from '../../../assets/placeholder.png';
 import articleScreenStyles from './ArticleScreen.style';
 import { IArticle } from '../../store/types';
 import { navOpts } from '../../navigation/common';
 import theme from '../../theme';
+import { switchArticleReadStatus } from '../../store/articles/articles.actions';
 
 const ArticleScreen = ({ navigation }: NavigationStackScreenProps) => {
 	const article: IArticle = navigation.getParam('article');
+	const dispatch = useDispatch();
 
 	React.useEffect(() => {
 		navigation.setParams({ Title: article.title });
+		if (article.unread) dispatch(switchArticleReadStatus(article.id));
 	}, [article]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	const goToSource = () => (article.targetURL ? Linking.openURL(article.targetURL) : alert('No link'));

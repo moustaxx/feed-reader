@@ -1,11 +1,12 @@
-import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess, markArticleAsRead } from './articles.actions';
+import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess, switchArticleReadStatus } from './articles.actions';
 import { IArticlesState } from '../types';
+import { makeRequest, feedly } from '../../utils/feedlyClient';
 
 type TAction =
 	| ReturnType<typeof articlesHasErrored>
 	| ReturnType<typeof articlesIsLoading>
 	| ReturnType<typeof articlesFetchDataSuccess>
-	| ReturnType<typeof markArticleAsRead>;
+	| ReturnType<typeof switchArticleReadStatus>;
 
 const initialState: IArticlesState = {
 	error: null,
@@ -30,12 +31,15 @@ const articlesReducer = (state = initialState, action: TAction): IArticlesState 
 						...action.payload.articles,
 					],
 				};
-			case 'MARK_ARTICLE_AS_READ': {
+			case 'SWITCH_ARTICLE_READ_STATUS': {
 				const articles = state.articles.map((article) => {
 					if (article.id !== action.payload.articleID) return article;
+					if (article.unread) {
+						makeRequest(() => feedly.setReadStatus(action.payload.articleID, true));
+					} else makeRequest(() => feedly.setReadStatus(action.payload.articleID, false));
 					return {
 						...article,
-						unread: false,
+						unread: !article.unread,
 					};
 				});
 				return {

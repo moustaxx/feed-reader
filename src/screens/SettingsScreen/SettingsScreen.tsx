@@ -5,10 +5,8 @@ import { ScrollView } from 'react-navigation';
 import { useSelector, useDispatch } from 'react-redux';
 
 import settingsStyles from './SettingsScreen.style';
-import { makeRequest, feedly } from '../../utils/feedlyClient';
 import { IAppState, ISettingsState } from '../../store/types';
 import { setSettings, resetSettings } from '../../store/settings/settings.actions';
-import { resetSecureStore } from '../../store/secure/secure.actions';
 
 const SettingsScreen = () => {
 	const mounted = React.useRef(true);
@@ -24,20 +22,6 @@ const SettingsScreen = () => {
 		}
 	};
 
-	const handleLogout = async () => {
-		try {
-			await makeRequest(() => feedly.logout());
-			if (mounted.current) {
-				setSnackbarData({ visibility: true, content: 'You have been logged out.' });
-			}
-		} catch (error) {
-			console.warn('Log out error!', error);
-			if (mounted.current) {
-				setSnackbarData({ visibility: true, content: 'Log out error!' });
-			}
-		}
-		dispatch(resetSecureStore());
-	};
 	const handleSettingsReset = () => {
 		dispatch(resetSettings());
 		if (mounted.current) {
@@ -51,7 +35,7 @@ const SettingsScreen = () => {
 
 	return (
 		<View style={settingsStyles.root}>
-			<ScrollView>
+			<ScrollView style={settingsStyles.content}>
 				<Title>Article list</Title>
 				<View style={settingsStyles.option}>
 					<Subheading>Picture on left</Subheading>
@@ -60,14 +44,6 @@ const SettingsScreen = () => {
 						onValueChange={() => saveSettings({
 							articlePictureOnLeft: !settings.articlePictureOnLeft,
 						})}
-					/>
-				</View>
-				<View style={settingsStyles.option}>
-					<Button
-						compact
-						children="Log out"
-						mode="contained"
-						onPress={handleLogout}
 					/>
 				</View>
 				<View style={settingsStyles.option}>

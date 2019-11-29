@@ -2,8 +2,10 @@ import { StyleSheet } from 'react-native';
 
 const settingsStyles = StyleSheet.create({
 	root: {
-		padding: 16,
 		height: '100%',
+	},
+	content: {
+		padding: 16,
 	},
 	option: {
 		flexDirection: 'row',

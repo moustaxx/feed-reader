@@ -58,4 +58,4 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 	);
 };
 
-export default ArticleItem;
+export default React.memo(ArticleItem);

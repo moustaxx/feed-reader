@@ -127,7 +127,7 @@ class Feedly {
 
 	public logout = () => this.feedlyFetch('/v3/auth/logout', { method: 'POST' });
 
-	public markAllAsRead = () => {
+	public markMultipleAsRead = (entryIds: string[]) => {
 		return this.feedlyFetch('/v3/markers', {
 			method: 'POST',
 			headers: {
@@ -137,7 +137,7 @@ class Feedly {
 				action: 'markAsRead',
 				type: 'categories',
 				categoryIds: [`user/${this.userID}/category/global.all`],
-				asOf: Date.now(),
+				entryIds,
 			}),
 		});
 	};

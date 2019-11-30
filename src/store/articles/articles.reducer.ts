@@ -1,4 +1,4 @@
-import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess, switchArticleReadStatus } from './articles.actions';
+import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess, switchArticleReadStatus, markAllArticlesAsRead } from './articles.actions';
 import { IArticlesState } from '../types';
 import { makeRequest, feedly } from '../../utils/feedlyClient';
 
@@ -6,7 +6,8 @@ type TAction =
 	| ReturnType<typeof articlesHasErrored>
 	| ReturnType<typeof articlesIsLoading>
 	| ReturnType<typeof articlesFetchDataSuccess>
-	| ReturnType<typeof switchArticleReadStatus>;
+	| ReturnType<typeof switchArticleReadStatus>
+	| ReturnType<typeof markAllArticlesAsRead>;
 
 const initialState: IArticlesState = {
 	error: null,
@@ -46,6 +47,11 @@ const articlesReducer = (state = initialState, action: TAction): IArticlesState 
 					...state,
 					articles,
 				};
+			}
+			case 'MARK_ALL_ARTICLES_AS_READ': {
+				const ids = state.articles.map((article) => article.id);
+				makeRequest(() => feedly.markMultipleAsRead(ids));
+				return state;
 			}
 			default:
 				return state;

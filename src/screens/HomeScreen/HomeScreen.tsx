@@ -12,8 +12,7 @@ import { navOpts } from '../../navigation/common';
 import theme from '../../theme';
 import { store } from '../../store';
 import { IAppState } from '../../store/types';
-import { articlesFetchData } from '../../store/articles/articles.actions';
-import { makeRequest, feedly } from '../../utils/feedlyClient';
+import { articlesFetchData, markAllArticlesAsRead } from '../../store/articles/articles.actions';
 
 const HomeScreen = () => {
 	const dispatch = useDispatch();
@@ -76,7 +75,10 @@ HomeScreen.navigationOptions = ({ navigation }: NavigationStackScreenProps) => {
 					icon="check"
 					color={theme.colors.headerElements}
 					style={articleScreenStyles.navHeaderRight}
-					onPress={() => void makeRequest(() => feedly.markAllAsRead())}
+					onPress={() => {
+						store.dispatch(markAllArticlesAsRead());
+						refresh();
+					}}
 				/>
 			</View>
 		),

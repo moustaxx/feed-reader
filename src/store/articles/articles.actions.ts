@@ -42,6 +42,12 @@ export const switchArticleReadStatus = (articleID: string) => {
 	} as const;
 };
 
+export const markAllArticlesAsRead = () => {
+	return {
+		type: 'MARK_ALL_ARTICLES_AS_READ',
+	} as const;
+};
+
 export const articlesFetchData = (): ThunkAction<void, IAppState, null, Action<string>> => {
 	return async (dispatch, getState) => {
 		dispatch(articlesIsLoading(true));

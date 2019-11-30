@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Title, ActivityIndicator, IconButton } from 'react-native-paper';
+import { Title, ActivityIndicator, IconButton, Button } from 'react-native-paper';
 import { ScrollView, withNavigation } from 'react-navigation';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,6 +52,17 @@ const HomeScreen = () => {
 					article={article}
 				/>
 			))}
+			<Button
+				onPress={() => {
+					dispatch(markAllArticlesAsRead());
+					dispatch(articlesFetchData());
+				}}
+				contentStyle={{ height: 64 }}
+				style={{ marginTop: 8 }}
+				mode="contained"
+				icon="check"
+				children="Mark all as read"
+			/>
 		</ScrollView>
 	);
 };
@@ -72,7 +83,7 @@ HomeScreen.navigationOptions = ({ navigation }: NavigationStackScreenProps) => {
 					onPress={refresh}
 				/>
 				<IconButton
-					icon="check"
+					icon="check-all"
 					color={theme.colors.headerElements}
 					style={articleScreenStyles.navHeaderRight}
 					onPress={() => {

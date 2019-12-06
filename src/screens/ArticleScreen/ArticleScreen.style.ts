@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 const articleScreenStyles = StyleSheet.create({
+	root: {
+		height: '100%',
+	},
 	image: {
 		width: '100%',
 		height: 300,
@@ -15,12 +18,14 @@ const articleScreenStyles = StyleSheet.create({
 	flameIcon: {
 		marginRight: 2,
 	},
-	goToSourceBtn: {
-		marginVertical: 16,
-		paddingVertical: 4,
+	btnContent: {
+		marginVertical: 8,
+	},
+	btn: {
+		marginVertical: 4,
 	},
 	content: {
-		marginVertical: 8,
+		marginVertical: 16,
 	},
 	navHeaderRight: {
 		flexDirection: 'row',

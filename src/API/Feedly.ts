@@ -136,7 +136,7 @@ class Feedly {
 			body: JSON.stringify({
 				action: 'markAsRead',
 				type: 'categories',
-				categoryIds: [`user/${this.userID}/category/global.all`],
+				categoryIds: [`user/${this.userID}/category/global.all`], // TODO: change type to entries
 				entryIds,
 			}),
 		});
@@ -150,6 +150,28 @@ class Feedly {
 				action,
 				type: 'entries',
 				entryIds: [entryID],
+			}),
+		});
+	};
+
+	public markAsSaved = (entryIds: string[]) => {
+		return this.feedlyFetch('/v3/markers', {
+			method: 'POST',
+			body: JSON.stringify({
+				action: 'markAsSaved',
+				type: 'entries',
+				entryIds,
+			}),
+		});
+	};
+
+	public markAsUnsaved = (entryIds: string[]) => {
+		return this.feedlyFetch('/v3/markers', {
+			method: 'POST',
+			body: JSON.stringify({
+				action: 'markAsUnsaved',
+				type: 'entries',
+				entryIds,
 			}),
 		});
 	};

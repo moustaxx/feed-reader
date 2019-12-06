@@ -42,6 +42,15 @@ export const switchArticleReadStatus = (articleID: string) => {
 	} as const;
 };
 
+export const switchArticleSaveStatus = (entryIds: string[]) => {
+	return {
+		type: 'SWITCH_ARTICLE_SAVE_STATUS',
+		payload: {
+			entryIds,
+		},
+	} as const;
+};
+
 export const markAllArticlesAsRead = () => {
 	return {
 		type: 'MARK_ALL_ARTICLES_AS_READ',
@@ -61,19 +70,24 @@ export const articlesFetchData = (): ThunkAction<void, IAppState, null, Action<s
 				ranked: 'newest',
 			}));
 
-			const articles = data.items.map((_article) => {
-				const { content } = _article.summary || _article.content || {} as any;
+			const articles = data.items.map((article) => {
+				const { tags } = article;
+				const { content } = article.summary || article.content || {} as any;
+				const saved = tags ? !!tags.some(({ id }) => id.endsWith('global.saved')) : false;
+
 				return {
-					id: _article.id,
-					title: _article.title,
+					id: article.id,
+					title: article.title,
 					content: content && innertext(content),
-					unread: _article.unread,
-					thumbnail: _article.thumbnail && _article.thumbnail[0].url,
-					imageURL: _article.visual && _article.visual.url !== 'none' ? _article.visual.url : undefined,
-					targetURL: _article.alternate && _article.alternate[0].href,
-					sourceName: _article.origin ? _article.origin.title : 'Unknown',
-					engagement: _article.engagement ? _article.engagement : 0,
-					crawled: format(_article.crawled, 'my-locale'),
+					unread: article.unread,
+					thumbnail: article.thumbnail && article.thumbnail[0].url,
+					imageURL: article.visual?.url !== 'none' ? article.visual?.url : undefined,
+					targetURL: article.alternate?.[0].href,
+					sourceName: article.origin?.title || 'Unknown',
+					engagement: article.engagement || 0,
+					crawled: format(article.crawled, 'my-locale'),
+					tags: article.tags,
+					saved,
 				};
 			});
 

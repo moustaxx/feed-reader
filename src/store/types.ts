@@ -8,6 +8,12 @@ export interface IArticle {
 	targetURL?: string;
 	sourceName: string;
 	engagement: number;
+	tags?: {
+		id: string;
+		label?: string;
+		description?: string;
+	}[];
+	saved: boolean;
 	crawled: string;
 }
 

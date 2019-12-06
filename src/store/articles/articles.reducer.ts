@@ -1,4 +1,4 @@
-import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess, switchArticleReadStatus, markAllArticlesAsRead } from './articles.actions';
+import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess, switchArticleReadStatus, markAllArticlesAsRead, switchArticleSaveStatus } from './articles.actions';
 import { IArticlesState } from '../types';
 import { makeRequest, feedly } from '../../utils/feedlyClient';
 
@@ -7,6 +7,7 @@ type TAction =
 	| ReturnType<typeof articlesIsLoading>
 	| ReturnType<typeof articlesFetchDataSuccess>
 	| ReturnType<typeof switchArticleReadStatus>
+	| ReturnType<typeof switchArticleSaveStatus>
 	| ReturnType<typeof markAllArticlesAsRead>;
 
 const initialState: IArticlesState = {
@@ -52,6 +53,31 @@ const articlesReducer = (state = initialState, action: TAction): IArticlesState 
 				const ids = state.articles.map((article) => article.id);
 				makeRequest(() => feedly.markMultipleAsRead(ids));
 				return state;
+			}
+			case 'SWITCH_ARTICLE_SAVE_STATUS': {
+				let unsave = false;
+				const articles = state.articles.map((article) => {
+					const entryIdsLength = action.payload.entryIds.length;
+					for (let i = 0; i < entryIdsLength; i += 1) {
+						if (article.id === action.payload.entryIds[i]) {
+							if (article.saved) unsave = true;
+							return {
+								...article,
+								saved: !article.saved,
+							};
+						}
+					}
+					return article;
+				});
+				makeRequest(() => (
+					unsave
+						? feedly.markAsUnsaved(action.payload.entryIds)
+						: feedly.markAsSaved(action.payload.entryIds)
+				));
+				return {
+					...state,
+					articles,
+				};
 			}
 			default:
 				return state;

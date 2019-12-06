@@ -43,8 +43,10 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 							style={articleStyles.flameIcon}
 							size={14}
 						/>
-						{ /* eslint-disable-next-line react/jsx-one-expression-per-line */ }
-						<Caption>{article.engagement} | {article.sourceName} | {article.crawled}</Caption>
+						<Caption>
+							{ /* eslint-disable-next-line react/jsx-one-expression-per-line */ }
+							{article.engagement} | {article.sourceName} | {article.crawled} {article.saved && '| Saved'}
+						</Caption>
 					</View>
 				</View>
 				{(article.thumbnail || article.imageURL) && !articlePictureOnLeft && (

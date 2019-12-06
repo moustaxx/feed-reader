@@ -89,7 +89,8 @@ export interface IGetArticlesItem {
 	 *  the “global.read” tag will be present. */
 	tags?: Array<{
 		id: string;
-		label: string;
+		label?: string;
+		description?: string;
 	}>;
 	/** Category object array a list of category objects (“id” and “label”)
 	 *  that the user associated with the feed of this entry.

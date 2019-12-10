@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, RefreshControl } from 'react-native';
 import { Title, ActivityIndicator, IconButton, Button } from 'react-native-paper';
 import { ScrollView, withNavigation } from 'react-navigation';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
@@ -17,6 +17,7 @@ import { articlesFetchData, markAllArticlesAsRead } from '../../store/articles/a
 const HomeScreen = () => {
 	const dispatch = useDispatch();
 	const { articles, isLoading, error } = useSelector((state: IAppState) => state.articles);
+	const [refreshing] = React.useState(false);
 
 	React.useEffect(() => {
 		dispatch(articlesFetchData());
@@ -45,7 +46,14 @@ const HomeScreen = () => {
 	}
 
 	return (
-		<ScrollView>
+		<ScrollView
+			refreshControl={(
+				<RefreshControl
+					refreshing={refreshing}
+					onRefresh={() => dispatch(articlesFetchData())}
+				/>
+			)}
+		>
 			{articles.map((article) => (
 				<ArticleItem
 					key={article.id}

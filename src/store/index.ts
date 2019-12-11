@@ -19,6 +19,7 @@ const persistedSettingsReducer = persistReducer({
 const persistedSecureReducer = persistReducer({
 	storage: secureStorage,
 	key: 'secure',
+	timeout: 10000,
 }, secureReducer);
 
 export const rootReducer = combineReducers({

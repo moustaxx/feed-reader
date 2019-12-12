@@ -1,12 +1,14 @@
 import { StyleSheet } from 'react-native';
+import theme from '../../theme';
 
 const articleStyles = StyleSheet.create({
 	root: {
-		marginHorizontal: 8,
-		padding: 8,
+		paddingVertical: 8,
+		paddingHorizontal: 16,
 		flexDirection: 'row',
 		borderTopWidth: 1,
 		borderTopColor: '#00000020',
+		backgroundColor: theme.colors.surface,
 	},
 	imageLeft: {
 		width: 150,

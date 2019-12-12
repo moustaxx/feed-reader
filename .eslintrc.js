@@ -40,5 +40,6 @@ module.exports = {
 		'react/no-children-prop': 0,
 		"react-hooks/rules-of-hooks": "error",
 		"react-hooks/exhaustive-deps": "warn"
+		'react/prop-types': 0,
 	},
 };

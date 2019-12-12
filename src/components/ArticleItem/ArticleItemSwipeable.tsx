@@ -5,13 +5,13 @@ import { RectButton } from 'react-native-gesture-handler';
 import { Animated, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { switchArticleSaveStatus } from '../../store/articles/articles.actions';
+import { switchArticleSaveStatus, switchArticleReadStatus } from '../../store/articles/articles.actions';
 
 const styles = StyleSheet.create({
 	readTextColor: {
 		color: '#666',
 	},
-	swipeableLeftAction: {
+	swipeableAction: {
 		paddingLeft: 8,
 		paddingRight: 16,
 		backgroundColor: '#388e3c',
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 	},
 	swipeableActionIcon: {
 		width: 30,
-		marginHorizontal: 10,
+		marginHorizontal: 8,
 	},
 	swipeableText: {
 		color: '#fff',
@@ -30,17 +30,18 @@ const styles = StyleSheet.create({
 
 const AnimatedIcon: typeof MaterialIcons = Animated.createAnimatedComponent(MaterialIcons);
 
-interface ILeftActionsProps {
+interface IActionsProps {
 	swipeableRowRef: React.MutableRefObject<Swipeable | null>;
 	progress: Animated.Value | Animated.AnimatedInterpolation;
 	dragX: Animated.AnimatedInterpolation;
-	isSaved: boolean;
+	isSaved?: boolean;
+	isUnread?: boolean;
 }
 
-const LeftActions = ({ swipeableRowRef, isSaved }: ILeftActionsProps) => {
+const LeftActions = ({ swipeableRowRef, isSaved }: IActionsProps) => {
 	return (
 		<RectButton
-			style={styles.swipeableLeftAction}
+			style={styles.swipeableAction}
 			onPress={() => swipeableRowRef.current?.close()}
 		>
 			<AnimatedIcon
@@ -57,19 +58,48 @@ const LeftActions = ({ swipeableRowRef, isSaved }: ILeftActionsProps) => {
 	);
 };
 
+const RightActions = ({ swipeableRowRef, isUnread }: IActionsProps) => {
+	return (
+		<RectButton
+			style={styles.swipeableAction}
+			onPress={() => swipeableRowRef.current?.close()}
+		>
+			<AnimatedIcon
+				name="check"
+				size={30}
+				color="#fff"
+				style={styles.swipeableActionIcon}
+			/>
+			<Animated.Text
+				style={styles.swipeableText}
+				children={isUnread ? 'Mark as read' : 'Mark as unread'}
+			/>
+		</RectButton>
+	);
+};
+
 type TArticleItemSwipeable = React.FC<{
 	articleSaved: boolean;
+	articleUnread: boolean;
 	articleID: string;
 }>;
 
-const ArticleItemSwipeable: TArticleItemSwipeable = ({ articleSaved, articleID, children }) => {
+const ArticleItemSwipeable: TArticleItemSwipeable = ({
+	articleSaved,
+	articleUnread,
+	articleID,
+	children,
+}) => {
 	const dispatch = useDispatch();
-	const [isSaved, setIsSavedStatus] = React.useState(articleSaved);
 	const swipeableRowRef = React.useRef<Swipeable | null>(null);
 
 	const handleSwipeLeft = () => {
-		setIsSavedStatus(!isSaved);
 		dispatch(switchArticleSaveStatus([articleID]));
+		swipeableRowRef.current?.close();
+	};
+
+	const handleSwipeRight = () => {
+		dispatch(switchArticleReadStatus(articleID));
 		swipeableRowRef.current?.close();
 	};
 
@@ -77,13 +107,23 @@ const ArticleItemSwipeable: TArticleItemSwipeable = ({ articleSaved, articleID, 
 		<Swipeable
 			ref={swipeableRowRef}
 			overshootLeft={false}
-			onSwipeableOpen={handleSwipeLeft}
+			overshootRight={false}
+			onSwipeableLeftOpen={handleSwipeLeft}
+			onSwipeableRightOpen={handleSwipeRight}
 			renderLeftActions={(progress, dragX) => (
 				<LeftActions
 					swipeableRowRef={swipeableRowRef}
 					progress={progress}
 					dragX={dragX}
-					isSaved={isSaved}
+					isSaved={articleSaved}
+				/>
+			)}
+			renderRightActions={(progress, dragX) => (
+				<RightActions
+					swipeableRowRef={swipeableRowRef}
+					progress={progress}
+					dragX={dragX}
+					isUnread={articleUnread}
 				/>
 			)}
 		>

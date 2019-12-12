@@ -21,7 +21,11 @@ const ArticleItem = ({ article }: IArticleItemProps) => {
 	const goToArticle = () => void navigate('ArticleScreen', { article });
 
 	return (
-		<ArticleItemSwipeable articleID={article.id} articleSaved={article.saved}>
+		<ArticleItemSwipeable
+			articleID={article.id}
+			articleSaved={article.saved}
+			articleUnread={article.unread}
+		>
 			<RectButton onPress={goToArticle}>
 				<View style={articleStyles.root}>
 					{(article.thumbnail || article.imageURL) && articlePictureOnLeft && (

@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, WebView } from 'react-native';
+import { View } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { Text } from 'react-native-paper';
 import URLParse from 'url-parse';
 import { useDispatch } from 'react-redux';

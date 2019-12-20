@@ -50,10 +50,29 @@ const MenuDrawer = () => {
 					<Text style={menuDrawerStyles.headerText}>Feed Reader</Text>
 				</View>
 				<List.Section title="Feeds">
+					<List.Item
+						title="All"
+						left={(props) => <List.Icon icon="menu" {...props} />}
+						onPress={() => void navigate('Home')}
+					/>
+					<List.Item
+						title="Read later"
+						left={(props) => <List.Icon icon="read" {...props} />}
+						onPress={() => void navigate('Home')}
+					/>
 					{data?.map((collection) => (
-						<List.Accordion title={collection.label} key={collection.id}>
+						<List.Accordion
+							key={collection.id}
+							title={collection.label}
+							left={(props) => (
+								<List.Icon icon="rss" style={menuDrawerStyles.listIcon} {...props} />
+							)}
+						>
 							{collection.feeds.map((feed) => (
-								<DrawerListItem key={feed.id} feed={feed} />
+								<DrawerListItem
+									key={feed.id}
+									feed={feed}
+								/>
 							))}
 						</List.Accordion>
 					))}

@@ -45,13 +45,17 @@ const menuDrawerStyles = StyleSheet.create({
 	listItemImg: {
 		width: 32,
 		height: 32,
-		marginHorizontal: 4,
+		marginHorizontal: 8,
 	},
 	loadingOrError: {
 		width: '100%',
 		height: '100%',
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	listIcon: {
+		margin: 0,
+		marginRight: 16,
 	},
 });
 

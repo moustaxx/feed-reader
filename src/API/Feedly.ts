@@ -6,6 +6,7 @@ import { IGetTokensRes, IGetTokensInput } from './types/getTokens';
 import { IProfile } from './types/getUserProfile';
 import { IRefreshAccessTokenInput, IRefreshAccessTokenResponse } from './types/refreshAccessToken';
 import { IGetOAuthLoginInput } from './types/getOAuthLogin';
+import { TGetCollections } from './types/getCollections';
 
 interface IOptions {
 	baseURL: string;
@@ -123,6 +124,10 @@ class Feedly {
 			redirect_uri: encodeURI(this.options.redirectURI),
 			scope: encodeURI('https://cloud.feedly.com/subscriptions'),
 		});
+	};
+
+	public getCollections = () => {
+		return this.feedlyFetchJSON<TGetCollections>('/v3/collections');
 	};
 
 	public logout = () => this.feedlyFetch('/v3/auth/logout', { method: 'POST' });

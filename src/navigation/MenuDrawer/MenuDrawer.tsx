@@ -1,13 +1,47 @@
-// eslint-disable-next-line import/no-unresolved
-import { DrawerNavigatorItemsProps } from 'react-navigation-drawer/lib/typescript/src/types';
 import React from 'react';
-import { View, ScrollView, Text, Image } from 'react-native';
-import { DrawerNavigatorItems } from 'react-navigation-drawer';
+import { View, ScrollView, Text, Image, ActivityIndicator } from 'react-native';
+import { useNavigation } from 'react-navigation-hooks';
+import { List } from 'react-native-paper';
 
 import logoIcon from '../../../assets/small-icon.png';
 import menuDrawerStyles from './MenuDrawer.style';
+import { feedly, useAPIRequest } from '../../utils/feedlyClient';
+import { IFeed } from '../../API/types/getCollections';
 
-const MenuDrawer = (props: DrawerNavigatorItemsProps) => {
+
+const DrawerListItem = ({ feed }: { feed: IFeed }) => {
+	const googleFaviconURL = `https://www.google.com/s2/favicons?domain=${feed.website}`;
+	const imgURL = `https://i.olsh.me/icon?url=${feed.website}&size=16..64..300&fallback_icon_url=${googleFaviconURL}`;
+	return (
+		<List.Item
+			left={() => <Image source={{ uri: imgURL }} style={menuDrawerStyles.listItemImg} />}
+			title={feed.title}
+			onPress={() => console.log('dd')}
+		/>
+	);
+};
+
+const MenuDrawer = () => {
+	const { navigate } = useNavigation();
+	const { data, loading, error } = useAPIRequest(() => feedly.getCollections());
+
+	if (loading && !data) {
+		return (
+			<View style={menuDrawerStyles.loadingOrError}>
+				<ActivityIndicator size="large" />
+			</View>
+		);
+	}
+
+	if (error) {
+		return (
+			<View style={menuDrawerStyles.loadingOrError}>
+				<Text>Error</Text>
+				<Text>{error.message}</Text>
+			</View>
+		);
+	}
+
 	return (
 		<View style={menuDrawerStyles.container}>
 			<ScrollView style={menuDrawerStyles.scroller}>
@@ -15,7 +49,27 @@ const MenuDrawer = (props: DrawerNavigatorItemsProps) => {
 					<Image style={menuDrawerStyles.headerImg} source={logoIcon} />
 					<Text style={menuDrawerStyles.headerText}>Feed Reader</Text>
 				</View>
-				<DrawerNavigatorItems {...props} />
+				<List.Section title="Feeds">
+					{data?.map((collection) => (
+						<List.Accordion title={collection.label} key={collection.id}>
+							{collection.feeds.map((feed) => (
+								<DrawerListItem key={feed.id} feed={feed} />
+							))}
+						</List.Accordion>
+					))}
+				</List.Section>
+				<List.Section title="Other">
+					<List.Item
+						left={(props) => <List.Icon icon="settings" {...props} />}
+						title="Settings"
+						onPress={() => void navigate('Settings')}
+					/>
+					<List.Item
+						left={(props) => <List.Icon icon="account-circle" {...props} />}
+						title="My profile"
+						onPress={() => void navigate('My Profile')}
+					/>
+				</List.Section>
 			</ScrollView>
 			<View style={menuDrawerStyles.footer}>
 				<Text style={menuDrawerStyles.description}>Feed Reader</Text>

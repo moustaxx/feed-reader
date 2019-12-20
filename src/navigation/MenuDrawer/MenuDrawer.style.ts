@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 
-
 const menuDrawerStyles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -42,6 +41,17 @@ const menuDrawerStyles = StyleSheet.create({
 		flex: 1,
 		marginLeft: 20,
 		fontSize: 16,
+	},
+	listItemImg: {
+		width: 32,
+		height: 32,
+		marginHorizontal: 4,
+	},
+	loadingOrError: {
+		width: '100%',
+		height: '100%',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 });
 

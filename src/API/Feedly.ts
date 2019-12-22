@@ -141,7 +141,6 @@ class Feedly {
 			body: JSON.stringify({
 				action: 'markAsRead',
 				type: 'categories',
-				categoryIds: [`user/${this.userID}/category/global.all`], // TODO: change type to entries
 				entryIds,
 			}),
 		});

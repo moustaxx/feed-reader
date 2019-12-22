@@ -140,7 +140,7 @@ class Feedly {
 			},
 			body: JSON.stringify({
 				action: 'markAsRead',
-				type: 'categories',
+				type: 'entries',
 				entryIds,
 			}),
 		});

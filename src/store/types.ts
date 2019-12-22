@@ -21,6 +21,7 @@ export type IArticlesState = Readonly<{
 	error: string | null;
 	isLoading: boolean;
 	articles: ReadonlyArray<IArticle>;
+	targetID: string | null;
 }>;
 
 export type ISettingsState = Readonly<{

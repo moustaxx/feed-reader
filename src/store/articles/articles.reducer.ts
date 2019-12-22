@@ -1,4 +1,4 @@
-import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess, switchArticleReadStatus, markAllArticlesAsRead, switchArticleSaveStatus } from './articles.actions';
+import { articlesHasErrored, articlesIsLoading, articlesFetchDataSuccess, switchArticleReadStatus, markAllArticlesAsRead, switchArticleSaveStatus, setArticlesTargetID } from './articles.actions';
 import { IArticlesState } from '../types';
 import { makeRequest, feedly } from '../../utils/feedlyClient';
 
@@ -8,12 +8,14 @@ type TAction =
 	| ReturnType<typeof articlesFetchDataSuccess>
 	| ReturnType<typeof switchArticleReadStatus>
 	| ReturnType<typeof switchArticleSaveStatus>
-	| ReturnType<typeof markAllArticlesAsRead>;
+	| ReturnType<typeof markAllArticlesAsRead>
+	| ReturnType<typeof setArticlesTargetID>;
 
 const initialState: IArticlesState = {
 	error: null,
 	isLoading: false,
 	articles: [],
+	targetID: null,
 };
 
 const articlesReducer = (state = initialState, action: TAction): IArticlesState => {
@@ -77,6 +79,12 @@ const articlesReducer = (state = initialState, action: TAction): IArticlesState 
 				return {
 					...state,
 					articles,
+				};
+			}
+			case 'SET_ARTICLES_TARGET_ID': {
+				return {
+					...state,
+					targetID: action.payload.targetID,
 				};
 			}
 			default:

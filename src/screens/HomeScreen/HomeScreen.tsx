@@ -14,14 +14,21 @@ import { store } from '../../store';
 import { IAppState } from '../../store/types';
 import { articlesFetchData, markAllArticlesAsRead } from '../../store/articles/articles.actions';
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }: NavigationStackScreenProps) => {
 	const dispatch = useDispatch();
-	const { articles, isLoading, error } = useSelector((state: IAppState) => state.articles);
+	const {
+		articles,
+		targetID,
+		isLoading,
+		error,
+	} = useSelector((state: IAppState) => state.articles);
 	const [refreshing] = React.useState(false);
 
 	React.useEffect(() => {
-		dispatch(articlesFetchData());
-	}, [dispatch]);
+		dispatch(articlesFetchData(targetID));
+		navigation.setParams({ targetID });
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [dispatch, targetID]);
 
 	if (isLoading) {
 		return (
@@ -50,7 +57,7 @@ const HomeScreen = () => {
 			refreshControl={(
 				<RefreshControl
 					refreshing={refreshing}
-					onRefresh={() => dispatch(articlesFetchData())}
+					onRefresh={() => dispatch(articlesFetchData(targetID))}
 				/>
 			)}
 		>
@@ -63,7 +70,7 @@ const HomeScreen = () => {
 			<Button
 				onPress={() => {
 					dispatch(markAllArticlesAsRead());
-					dispatch(articlesFetchData());
+					dispatch(articlesFetchData(targetID));
 				}}
 				contentStyle={{ height: 64 }}
 				style={{ marginTop: 8 }}
@@ -77,7 +84,8 @@ const HomeScreen = () => {
 
 HomeScreen.navigationOptions = ({ navigation }: NavigationStackScreenProps) => {
 	const opts = navOpts(navigation);
-	const refresh = () => store.dispatch(articlesFetchData() as any);
+	const targetID = navigation.getParam('targetID');
+	const refresh = () => store.dispatch(articlesFetchData(targetID) as any);
 
 	return {
 		...opts,

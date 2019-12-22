@@ -57,14 +57,23 @@ export const markAllArticlesAsRead = () => {
 	} as const;
 };
 
-export const articlesFetchData = (): ThunkAction<void, IAppState, null, Action<string>> => {
-	return async (dispatch, getState) => {
+export const setArticlesTargetID = (targetID: string) => {
+	return {
+		type: 'SET_ARTICLES_TARGET_ID',
+		payload: {
+			targetID,
+		},
+	} as const;
+};
+
+export const articlesFetchData = (
+	targetID: string | null,
+): ThunkAction<void, IAppState, null, Action<string>> => {
+	return async (dispatch) => {
 		dispatch(articlesIsLoading(true));
 		try {
-			const { userID } = getState().secure;
-
 			const data = await makeRequest(() => feedly.getArticles({
-				streamId: encodeURI(`user/${userID}/category/global.all`),
+				streamId: encodeURI(targetID || `user/${feedly.userID}/category/global.all`),
 				count: 20,
 				unreadOnly: false,
 				ranked: 'newest',

@@ -68,6 +68,7 @@ export const setArticlesTargetID = (targetID: string) => {
 
 export const articlesFetchData = (
 	targetID: string | null,
+	unreadOnly = true,
 ): ThunkAction<void, IAppState, null, Action<string>> => {
 	return async (dispatch) => {
 		dispatch(articlesIsLoading(true));
@@ -75,7 +76,7 @@ export const articlesFetchData = (
 			const data = await makeRequest(() => feedly.getArticles({
 				streamId: encodeURI(targetID || `user/${feedly.userID}/category/global.all`),
 				count: 20,
-				unreadOnly: false,
+				unreadOnly,
 				ranked: 'newest',
 			}));
 

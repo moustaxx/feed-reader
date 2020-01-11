@@ -48,6 +48,12 @@ const HomeScreen = ({ navigation }: NavigationStackScreenProps) => {
 		return (
 			<View style={homeScreenStyles.message}>
 				<Title>Nothing to show...</Title>
+				<Button
+					onPress={() => dispatch(articlesFetchData(targetID, false))}
+					style={homeScreenStyles.btn}
+					children="Show read articles"
+					mode="contained"
+				/>
 			</View>
 		);
 	}

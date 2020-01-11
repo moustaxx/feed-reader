@@ -6,6 +6,10 @@ const homeScreenStyles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	btn: {
+		padding: 4,
+		marginTop: 32,
+	},
 });
 
 export default homeScreenStyles;

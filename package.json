@@ -4,6 +4,7 @@
 	"scripts": {
 		"start": "expo start",
 		"dev": "cross-env REACT_DEBUGGER=\"set \"ELECTRON_RUN_AS_NODE=\"\" expo start",
+		"build": "cross-env EXPO_DEBUG=true expo build:android -t apk",
 		"android": "expo start --android",
 		"ios": "expo start --ios",
 		"web": "expo start --web",
